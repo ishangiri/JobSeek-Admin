@@ -1,0 +1,22 @@
+{
+  "name": "jobify",
+  "version": "1.0.0",
+  "description": "[Jobify](https://jobify.live/)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup-project": "npm i && cd client && npm i",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.21.1",
+    "morgan": "^1.10.0",
+    "nanoid": "^4.0.2",
+    "nodemon": "^3.1.7"
+  }
+}
