@@ -1,8 +1,13 @@
+import 'express-async-errors';
 import * as dotenv from 'dotenv';
 import express from 'express';
 const app = express();
 import morgan from 'morgan';
-import { nanoid } from 'nanoid';
+
+
+import router from './routes/jobRouter.js';
+
+import mongoose from 'mongoose';
 
 dotenv.config();
 
@@ -13,30 +18,28 @@ if (process.env.NODE_ENV === 'development'){
 }
 app.use(express.json());
 
-let jobs = [
-    { id: nanoid(), company: 'apple', position: 'front-end' },
-    { id: nanoid(), company: 'google', position: 'back-end' },
-  ];
+app.use('/api/jobs', router);
 
-  app.get('/api/jobs', (req, res) => {
-    res.status(200).json({ jobs });
-  });
-
-  app.get('/api/v1/jobs/:id', (req,res) => {
-    const {id} = req.params;
-    const job = jobs.find((job) => job.id === id);
-    if(!job){
-        throw new error('no job found');
-        return res.status(404).json({msg : `no job with id ${id}`})
-    }
-
-    res.status(200).json({job})
-  })
-  
-  const id = nanoid(10);
-   console.log(id);
-
-app.listen(port, ()=> {
-    console.log("Server running on " + port);
-    
+//not found route
+app.use('*', (req,res) => {
+    res.status(404).json({msg : "Route Not Found"})
 })
+
+  //error route
+  app.use((err, req, res, next) => {
+    console.log(err);
+    res.status(500).json({ msg: 'something went wrong' });
+  });
+ 
+
+try{
+    await mongoose.connect(process.env.MONGO_URL);
+    app.listen(port, ()=> {
+        console.log("Server running on " + port);
+        
+    })
+
+} catch(error){
+    console.log(error);
+    process.exit(1)
+}
