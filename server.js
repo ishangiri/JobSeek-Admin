@@ -1,17 +1,22 @@
 import 'express-async-errors';
 import * as dotenv from 'dotenv';
 import express from 'express';
+import { authenticateUser } from './middleware/authMIddleware.js';
+import cookieParser from 'cookie-parser';
 const app = express();
+
+app.use(cookieParser());
 app.use(express.json());
 
 import morgan from 'morgan';
 
 
-
 import router from './routes/jobRouter.js';
 import authRouter from './routes/authRouter.js';
+import userRouter from './routes/userRoutes.js'
 
 import mongoose from 'mongoose';
+import { StatusCodes } from 'http-status-codes';
 
 dotenv.config();
 
@@ -22,9 +27,14 @@ if (process.env.NODE_ENV === 'development'){
 }
 
 
+//routes for jobs coming from jobRouter
+app.use('/api/jobs', authenticateUser, router);
 
-app.use('/api/jobs', router);
+//routes for authentication coming from authRouter
 app.use('/api/auth', authRouter);
+
+//routes to check user status
+app.use('/api/users', authenticateUser,  userRouter);
 
 //not found route
 app.use('*', (req,res) => {
@@ -49,3 +59,4 @@ try{
     console.log(error);
     process.exit(1)
 }
+

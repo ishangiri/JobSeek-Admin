@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 import { JobStatus, JobType } from "../utils/constants.js";
 import mongoose from "mongoose";
 import User from "../models/userModel.js";
+import Job from "../models/JobModel.js";
 
 const validationError = (validateValues) => {
   return [
@@ -28,9 +29,28 @@ export const validateJobInput = validationError([
   body('jobType').isIn(Object.values(JobType)).withMessage("invalid job type")
  ]) 
 
- export const validateIdParam = validationError([
-    param('id').custom((value) => mongoose.Types.ObjectId.isValid(value)).withMessage('invalid MongoDB id')
- ]);
+ export const  validateIdParam =  validationError ([
+    param('id').custom( async (value, {req}) =>  {
+         const isValidMongoID = mongoose.Types.ObjectId.isValid(value);
+         if(!isValidMongoID){
+         throw new Error("id not valid")
+         }
+         const job = await Job.findById(value);
+         if(!job){
+          throw new Error("job with id not found")
+         }
+         const isAdmin = req.userData.role === 'admin'
+         const userID = job.createdBy.toString();
+         
+         const isOwner = req.userData.user === userID;
+
+         if(!isOwner && !isAdmin){
+          throw new Error("not authorized to access the job")
+               
+         }
+
+    })
+    ]);
 
 
  export const validateUserRegister = validationError([
@@ -45,4 +65,15 @@ export const validateJobInput = validationError([
     body('password').notEmpty().withMessage("password is required").isLength({min : 8}).withMessage('password must be 8 characters long'),
     body('location').notEmpty().withMessage("location is required"),
     body('lastName').notEmpty().withMessage("lastName is required"),
+ ])
+
+ export const validateUserUpdate = validationError([
+  body('name').notEmpty().withMessage("name is required"),
+  body('location').notEmpty().withMessage("location is required"),
+  body('lastName').notEmpty().withMessage("lastName is required"),
+])
+
+ export const validateLogin = validationError([
+  body('email').notEmpty().withMessage("email is required").isEmail().withMessage('invalid email'),
+  body('password').notEmpty().withMessage("password is required")
  ])
