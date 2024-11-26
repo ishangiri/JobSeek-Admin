@@ -4,6 +4,7 @@ import { JobStatus, JobType } from "../utils/constants.js";
 import mongoose from "mongoose";
 import User from "../models/userModel.js";
 import Job from "../models/JobModel.js";
+import OTP from '../models/otpModel.js';
 
 const validationError = (validateValues) => {
   return [
@@ -65,6 +66,13 @@ export const validateJobInput = validationError([
     body('password').notEmpty().withMessage("password is required").isLength({min : 8}).withMessage('password must be 8 characters long'),
     body('location').notEmpty().withMessage("location is required"),
     body('lastName').notEmpty().withMessage("lastName is required"),
+    body('otp').notEmpty().withMessage("Otp required to verify your email").custom(async(otp, {req}) => {
+      const email = req.body.email;
+      const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
+      if (response.length === 0 || otp !== response[0].otp) {
+       throw new Error('The OTP is not valid')
+      }
+    })
  ])
 
  export const validateUserUpdate = validationError([

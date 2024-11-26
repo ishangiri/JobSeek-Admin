@@ -12,6 +12,9 @@ const Login = () => {
         defaultValue="ishan@gmail.com"/>
         <FormInput type="paassword" name="password"
         defaultValue = "123456" />
+        <div>
+          <Link to = "/ForgotPassword" className='paragraph'>Forgot Password</Link>
+        </div>
         <button type='submit' className='btn btn-block'>
          submit
         </button>

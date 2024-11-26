@@ -12,7 +12,9 @@ export const getCurrentUser = async(req,res) => {
 }
 
 export const getAppStats = async(req,res) => {
-    res.status(StatusCodes.OK).json({msg : "application stats"});
+    const user = await User.countDocuments();
+    const jobs = await Job.countDocuments();
+    res.status(StatusCodes.OK).json({user, jobs});
 
 }
 

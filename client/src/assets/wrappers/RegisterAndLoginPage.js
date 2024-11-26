@@ -30,5 +30,10 @@ const Wrapper = styled.section`
     letter-spacing: var(--letter-spacing);
     margin-left: 0.25rem;
   }
+    .paragraph{
+      text-align : left;
+      color: var(--primary-500);
+      font-size : 0.9rem;
+    }
 `;
 export default Wrapper;
