@@ -11,4 +11,5 @@ export {default as EditJob} from './EditJob';
 export {default as DeleteJob} from './DeleteJob';
 export {default as AllJobs} from './AllJobs';
 export {default as Admin }  from './Admin';
+export {default as OTP} from './Otp';
 

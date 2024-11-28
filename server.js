@@ -32,10 +32,6 @@ if (process.env.NODE_ENV === 'development'){
 }
 
 
-app.get('/api/get', (req, res) => {
-    res.json({ msg: 'test route' });
-  });
-
 //routes for jobs coming from jobRouter
 app.use('/api/jobs', authenticateUser, router);
 

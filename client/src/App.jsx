@@ -10,9 +10,13 @@ import {
   Stats,
   AllJobs,
   Profile,
-  Admin
+  Admin,
+  OTP
 
 } from './pages'
+
+import { registerFormSubmission } from "./pages/Register.jsx";
+import { submitOTP } from "./pages/Otp.jsx";
 
  export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
@@ -34,11 +38,18 @@ const router =  createBrowserRouter([
       },
       {
         path: 'register',
-        element: <Register />
+        element: <Register />,
+        action : registerFormSubmission
       },
       {
         path: 'login',
         element: <Login />
+      },
+
+      {
+        path : 'OTP',
+        element : <OTP/>,
+        action: submitOTP,
       },
       {
         path: 'dashboard',
