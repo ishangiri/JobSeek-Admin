@@ -1,18 +1,40 @@
-import React, { createContext, useContext, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { createContext, useContext, useEffect, useState } from 'react'
+import { Outlet, redirect, useNavigate } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/Dashboard'
 import { NavBar, SideBar, SmallSideBar } from '../components'
 import { checkDefaultTheme } from '../App'
+import fetchData from '../utils/fetchUtil'
+import { toast } from 'react-toastify'
 
 
-
-const DashboardContext = createContext()
+const DashboardContext = createContext();
 
 const DashboardLayout = () => {
 
+  const navigate = useNavigate();
+  const [name, setName] = useState(null);
+
+  
+  useEffect(() => {
+
+    const fetchUserName = async() => {
+      try {
+        const response = await fetchData.get("/users/getUser");
+         const fetchedName = response.data.userWIthoutpass.name;
+         setName(fetchedName);
+      } catch (error) {
+        return error
+      }  
+    }
+
+    fetchUserName();
+   
+  },[] )
 
 
-  const user = {name: "Ishan"}
+
+
+  const user = {name: name}
   const [showSideBar, setShowSideBar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
   
@@ -29,13 +51,21 @@ const DashboardLayout = () => {
      
   }
 
-  const logoutUSer = async() => {
-    console.log("Logout User");
+  const logoutUser = async () => {
+      await fetchData.get("/auth/logout");
+      try {
+      toast.success("Logged out successfully")
+      return  navigate("/login");
+      } catch (error) {
+        toast.error("Error logging out")
+        console.log(error);
+        
+      }
     
   }
 
   return (
-<DashboardContext.Provider value={{user, showSideBar, isDarkTheme, logoutUSer, toggleDarkTheme, toggleSideBar}}>
+<DashboardContext.Provider value={{user, showSideBar, isDarkTheme, logoutUser, toggleDarkTheme, toggleSideBar}}>
    <Wrapper>
     <main className="dashboard">
       <SmallSideBar />

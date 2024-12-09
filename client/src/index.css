@@ -14,17 +14,18 @@ html {
 
 :root {
   /* colors */
-  --primary-50: #e0fcff;
-  --primary-100: #bef8fd;
-  --primary-200: #87eaf2;
-  --primary-300: #54d1db;
-  --primary-400: #38bec9;
-  --primary-500: #2cb1bc;
-  --primary-600: #14919b;
-  --primary-700: #0e7c86;
-  --primary-800: #0a6c74;
-  --primary-900: #044e54;
-
+  --primary-50: #e4f0ff;   /* Lightest blue, for subtle backgrounds */
+  --primary-100: #c4e1ff;  /* Light blue, great for hover effects or cards */
+  --primary-200: #90cbff;  /* Medium light blue, for active states */
+  --primary-300: #5ea5ff;  /* Bright blue, great for primary buttons */
+  --primary-400: #3f8cff;  /* Vibrant mid-tone blue */
+  --primary-500: #2366cc;  /* Standard blue for primary branding */
+  --primary-600: #1d56b3;  /* Slightly darker for focused states */
+  --primary-700: #15408f;  /* Darker blue, suitable for headers */
+  --primary-800: #102c6e;  /* Deep blue for strong contrast text */
+  --primary-900: #0a1a48;  /* Darkest blue for footers or accents */
+  
+  
   /* grey */
   --grey-50: #f8fafc;
   --grey-100: #f1f5f9;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { act, useEffect } from 'react'
 import { Link, Form, useNavigate, useNavigation, useActionData } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import {FormInput, Logo} from '../components'
@@ -8,7 +8,12 @@ import { toast } from 'react-toastify';
 export const loginUser = async ({request}) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-
+  const actionData = {msg : ""};
+   
+  if(data.password.length < 4){
+    actionData.msg = "password too short"
+    return actionData;
+  }
   try {
     await fetchData.post('/auth/login', data);
     return { success: true , loginData : data};
@@ -35,11 +40,15 @@ useEffect(() => {
     toast.error("Invalid email or password")
   }
 }, [navigate, actionData])
-  
-  return (
+
+
+
+ return (
   <Wrapper>
-    <Form method='post' className='form'>
-        <Logo />
+    <Form method='post' className = 'form'>
+        <Logo/>
+        <h4> Login </h4>
+        {actionData?.msg && <p style={{ color: 'red' }}>{actionData.msg}</p>}
         <FormInput type="email" name="email"/>
         <FormInput type="password" name="password" />
         <div>

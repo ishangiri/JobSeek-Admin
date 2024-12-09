@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useLocation, Form, useNavigate, useActionData, useNavigation } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import {FormInput, Logo} from '../components'
 import fetchData from '../utils/fetchUtil';
 import { toast } from "react-toastify";
+import OTPInput from 'react-otp-input';
 
 export const submitOTP = async ({request}) => {
 
@@ -24,7 +25,15 @@ export const submitOTP = async ({request}) => {
 
 }
 
+
 const OTP = () => {
+
+  const handleOtpChange = (value) => {
+    setOtpState(value);
+  };
+
+  const [otpState, setOtpState] = useState("");
+
   const navigation = useNavigation();
   const isSubmitting = navigation.state === "submitting" ;
 
@@ -50,13 +59,22 @@ const OTP = () => {
   <Wrapper>
     <Form method = "post" className='form'>
         <Logo />
-        <FormInput type = "number" name = "otp"
+        <OTPInput
+          value={otpState}
+          onChange={handleOtpChange}
+          numInputs={6}
+          renderSeparator={<span>-</span>}
+          renderInput={(props) => <input {...props} />}
+          containerStyle="otp-input-container"
+          inputStyle="otp-input"
+          
         />
+          <input type="hidden" name="otp" value={otpState} />
    {Object.entries(registrationData || {}).map(([key, value]) => (
           <input key={key} type="hidden" name={key} value={value} />
         ))}
         <button type='submit' className='btn btn-block' hidden={isSubmitting}>
-           {isSubmitting ? "Registering" : "Register"}
+           {isSubmitting ? "Submitting..." : "Submit"}
         </button>
     </Form>
   </Wrapper>

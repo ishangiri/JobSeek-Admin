@@ -58,7 +58,7 @@ const Register = () => {
         <FormInput type="email" name="email" />
         <FormInput type="password" name="password"/>
         <button type='submit' className='btn btn-block' hidden={isSubmitting}>
-           {isSubmitting ? "Registering" : "Register"}
+           {isSubmitting ? "Registering..." : "Register"}
         </button>
         <p>
           Already registered?
