@@ -34,7 +34,8 @@ const DashboardLayout = () => {
 
 
 
-  const user = {name: name}
+  const user = {name : name}
+ 
   const [showSideBar, setShowSideBar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(checkDefaultTheme());
   
@@ -55,7 +56,7 @@ const DashboardLayout = () => {
       await fetchData.get("/auth/logout");
       try {
       toast.success("Logged out successfully")
-      return  navigate("/login");
+      return  navigate("/");
       } catch (error) {
         toast.error("Error logging out")
         console.log(error);
@@ -73,7 +74,7 @@ const DashboardLayout = () => {
       <div>
         <NavBar />
         <div className='dashboard-page'>
-         <Outlet />
+         <Outlet context={{user}} />
         </div>
       </div>
     </main>

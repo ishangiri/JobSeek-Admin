@@ -74,7 +74,7 @@ const router =  createBrowserRouter([
             element: <Profile/>
           },
           {
-            path: 'admin',
+            path: 'setGoal',
             element: <Admin/>
           },
 

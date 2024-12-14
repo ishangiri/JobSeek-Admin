@@ -12,9 +12,9 @@ const Error = () => {
     return(
       <Wrapper>
         <div>
-          <img src={img} alt='not found' />
+          <img className='' src={img} alt='not found' />
           <h3>Page Not Found</h3>
-          <p>We can't seem to find the page you are looking for!</p>
+          <p className='text-cyan-600'>We can't seem to find the page you are looking for!</p>
          <Link to="/dashboard">Back Home</Link>
         </div>
 

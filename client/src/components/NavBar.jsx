@@ -20,7 +20,7 @@ const NavBar = () => {
             </button>
             <div>
                 <Logo />
-                <h4 className='logo-text'>Dashboard</h4>
+                <h4 className='logo-text text-blue-600 font-extrabold'>Dashboard</h4>
             </div>
             <div className="btn-container">
                 <ThemeToggle />

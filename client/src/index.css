@@ -1,5 +1,12 @@
 /* ============= GLOBAL CSS =============== */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ... */
+
+
 *,
 ::after,
 ::before {
@@ -329,4 +336,9 @@ button:disabled {
 .declined {
   background: #ffeeee;
   color: #d66a6a;
+}
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
 }
