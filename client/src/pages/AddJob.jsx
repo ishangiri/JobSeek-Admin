@@ -14,9 +14,12 @@ import {
 import { Input } from "@/components/ui/input"
 import fetchData from '../utils/fetchUtil'
 import { toast } from 'react-toastify'
+import { useDashboardContext } from './DashboardLayout'
 
 const AddJob = () => {
-  // Expanded form schema with multiple fields
+
+  const { isDarkTheme } = useDashboardContext();
+ 
   const formSchema = z.object({
     // Basic string validation
     company: z.string().min(2, {
@@ -71,17 +74,22 @@ const AddJob = () => {
   }
 
   return (
-   <div>
+   <div style={{backgroundColor : isDarkTheme? "#4D4D4D" : "white"}} className='border-none p-16 rounded-lg'>
+    <div className='flex justify-center items-center'>
+    <p className='mb-6 text-2xl'>ADD JOB</p>
+    </div>
     <Form {...form}>
     <div className='flex-row items-start justify-start'>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+        <div className='flex justify-evenly items-start'>
         {/* Username Field */}
+        <div className='w-96'>
         <FormField
           control={form.control}
           name="company"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className = "font-extrabold text-blue-600" >Company</FormLabel>
+              <FormLabel className = "font-extrabold text-[#4b95bc]" >Company</FormLabel>
               <FormControl>
                 <Input placeholder="Company Name" {...field} />
               </FormControl>
@@ -89,14 +97,16 @@ const AddJob = () => {
             </FormItem>
           )}
         />
+        </div>
 
         {/* Email Field */}
+        <div className='w-96'>
         <FormField
           control={form.control}
           name="position"
           render={({ field }) => (
             <FormItem>
-              <FormLabel  className = "font-extrabold text-blue-600" >Position</FormLabel>
+              <FormLabel  className = "font-extrabold text-[#4b95bc]" >Position</FormLabel>
               <FormControl>
                 <Input  
                   placeholder="Enter Position" 
@@ -107,14 +117,18 @@ const AddJob = () => {
             </FormItem>
           )}
         />
+        </div>
+        </div>
 
         {/* Description Field */}
+        <div className='flex justify-evenly items-start'>
+          <div className='w-96'> 
         <FormField
           control={form.control}
           name="jobLocation"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className = "font-extrabold text-blue-600" >Job Location</FormLabel>
+              <FormLabel className = "font-extrabold text-[#4b95bc]" >Job Location</FormLabel>
               <FormControl>
                 <Input 
                   placeholder="Location" 
@@ -125,14 +139,16 @@ const AddJob = () => {
             </FormItem>
           )}
         />
+        </div>
 
         {/* Experience Field */}
+        <div className='w-96'>
         <FormField
           control={form.control}
           name="jobStatus"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className = "font-extrabold text-blue-600" >Job Status</FormLabel>
+              <FormLabel className = "font-extrabold text-[#4b95bc]" >Job Status</FormLabel>
               <FormControl>
               <select {...field} className="w-full p-2 border rounded bg-transparent">
                   <option value="interview">Interview</option>
@@ -144,14 +160,19 @@ const AddJob = () => {
             </FormItem>
           )}
         />
+        </div>
+        </div>
 
         {/* Job Type Field */}
+        <div className='flex justify-evenly items-start'>
+        <div className='w-96'>
+         
         <FormField
           control={form.control}
           name="jobType"
           render={({ field }) => (
             <FormItem>
-              <FormLabel  className = "font-extrabold text-blue-600" >Job Type</FormLabel>
+              <FormLabel  className = "font-extrabold text-[#4b95bc]" >Job Type</FormLabel>
               <FormControl>
                 <select {...field} className="w-full p-2 border rounded bg-transparent">
                   <option value="full-time">Full Time</option>
@@ -163,10 +184,14 @@ const AddJob = () => {
             </FormItem>
           )}
         />
-        <div className='flex justify-center items-center'>
-        <Button type="submit" className = "bg-transparent text-blue-600">Submit</Button>
         </div>
         
+        <div className='flex justify-center items-center mt-6'>
+          <div>
+        <Button variant = "outline" type="submit" className = "bg-transparent text-[#4b95bc] w-96">Submit</Button>
+        </div>
+        </div>
+         </div>
       </form>
       </div>
     </Form>

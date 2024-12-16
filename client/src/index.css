@@ -21,17 +21,17 @@ html {
 
 :root {
   /* colors */
-  --primary-50: #e4f0ff;   /* Lightest blue, for subtle backgrounds */
-  --primary-100: #c4e1ff;  /* Light blue, great for hover effects or cards */
-  --primary-200: #90cbff;  /* Medium light blue, for active states */
-  --primary-300: #5ea5ff;  /* Bright blue, great for primary buttons */
-  --primary-400: #3f8cff;  /* Vibrant mid-tone blue */
-  --primary-500: #2366cc;  /* Standard blue for primary branding */
-  --primary-600: #1d56b3;  /* Slightly darker for focused states */
-  --primary-700: #15408f;  /* Darker blue, suitable for headers */
-  --primary-800: #102c6e;  /* Deep blue for strong contrast text */
-  --primary-900: #0a1a48;  /* Darkest blue for footers or accents */
-  
+  --primary-50:   #0a1e33;   /* Very dark blue, almost black-blue background */
+  --primary-100:  #112d4e;   /* Dark blue, subtle background layers */
+  --primary-200:  #1a4064;   /* Deep blue, card or section backgrounds */
+  --primary-300:  #23537a;   /* Rich blue, interactive element backgrounds */
+  --primary-400:  #2d6890;   /* Muted blue, hover states */
+  --primary-500:  #3c7ea6;   /* Medium blue, primary brand color */
+  --primary-600:  #4b95bc;   /* Bright blue, active states */
+  --primary-700:  #5aacd2;   /* Light blue, highlights */
+  --primary-800:  #6bc3e8;   /* Vibrant blue, accent elements */
+  --primary-900:  #7cdaff;   /* Brightest blue, interactive highlights */
+
   
   /* grey */
   --grey-50: #f8fafc;
