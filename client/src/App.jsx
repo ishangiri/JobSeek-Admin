@@ -18,7 +18,7 @@ import {
 import { registerFormSubmission } from "./pages/Register.jsx";
 import { submitOTP } from "./pages/Otp.jsx";
 import { loginUser } from "./pages/Login.jsx";
-import { loadJObs } from "./pages/AllJobs.jsx";
+import { loadJobs } from "./pages/AllJobs.jsx";
 
  export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
@@ -69,7 +69,7 @@ const router =  createBrowserRouter([
           {
             path: 'all-jobs',
             element: <AllJobs/>,
-            loader : loadJObs
+            loader : loadJobs
 
           },
           {
