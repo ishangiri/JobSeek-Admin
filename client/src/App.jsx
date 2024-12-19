@@ -11,7 +11,8 @@ import {
   AllJobs,
   Profile,
   Admin,
-  OTP
+  OTP,
+  EditJob
 
 } from './pages'
 
@@ -19,6 +20,7 @@ import { registerFormSubmission } from "./pages/Register.jsx";
 import { submitOTP } from "./pages/Otp.jsx";
 import { loginUser } from "./pages/Login.jsx";
 import { loadJobs } from "./pages/AllJobs.jsx";
+import { editJobLoader } from "./pages/EditJob.jsx";
 
  export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
@@ -80,6 +82,11 @@ const router =  createBrowserRouter([
             path: 'admin',
             element: <Admin/>
           },
+          {
+            path : 'edit-job/:id',
+            element : <EditJob />,
+            loader : editJobLoader
+          }
 
         ]
       },
