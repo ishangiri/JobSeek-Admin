@@ -1,11 +1,9 @@
 import React from 'react'
-import logo from '../assets/images/logo.svg';
 
 const Logo = () => {
   return (
-  <img src={logo} alt='logo' className='logo' />
-
+  <p className='text-2xl font-bold text-[#3c7ea6] logo'>JobSeeker's Paradise</p>
   )
 }
 
-export default Logo
+export default Logo 

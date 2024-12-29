@@ -37,8 +37,8 @@ const AddJob = () => {
     }),
     
     // Number field with min/max validation
-    jobStatus: z.enum(["pending", "interview", "declined"], {
-      errorMap : () => ({message : "Invalid Job status"})
+    jobDescription: z.string().min(20, {
+      message : "Description must be atleast 20 characters"
     }),
     
     // Enum or specific string values
@@ -54,7 +54,7 @@ const AddJob = () => {
       company: "",
       position: "",
       jobLocation: "",
-      jobStatus: "pending",
+      jobDescription: "",
       jobType: "full-time"
     }
   })
@@ -74,129 +74,120 @@ const AddJob = () => {
   }
 
   return (
-   <div style={{backgroundColor : isDarkTheme? "#4D4D4D" : "white"}} className='border-none p-16 rounded-lg'>
-    <div className='flex justify-center items-center'>
-    <p className='mb-6 text-2xl'>ADD JOB</p>
-    </div>
-    <Form {...form}>
-    <div className='flex-row items-start justify-start'>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
-        <div className='flex justify-evenly items-start'>
-        {/* Username Field */}
-        <div className='w-96'>
-        <FormField
-          control={form.control}
-          name="company"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className = "font-extrabold text-[#4b95bc]" >Company</FormLabel>
-              <FormControl>
-                <Input placeholder="Company Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div>
-
-        {/* Email Field */}
-        <div className='w-96'>
-        <FormField
-          control={form.control}
-          name="position"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel  className = "font-extrabold text-[#4b95bc]" >Position</FormLabel>
-              <FormControl>
-                <Input  
-                  placeholder="Enter Position" 
-                  {...field} 
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div>
-        </div>
-
-        {/* Description Field */}
-        <div className='flex justify-evenly items-start'>
-          <div className='w-96'> 
-        <FormField
-          control={form.control}
-          name="jobLocation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className = "font-extrabold text-[#4b95bc]" >Job Location</FormLabel>
-              <FormControl>
-                <Input 
-                  placeholder="Location" 
-                  {...field} 
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div>
-
-        {/* Experience Field */}
-        <div className='w-96'>
-        <FormField
-          control={form.control}
-          name="jobStatus"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className = "font-extrabold text-[#4b95bc]" >Job Status</FormLabel>
-              <FormControl>
-              <select {...field} className="w-full p-2 border rounded bg-transparent">
-                  <option value="interview">Interview</option>
-                  <option value="pending">Pending</option>
-                  <option value="declined">Declined</option>
-                </select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div>
-        </div>
-
-        {/* Job Type Field */}
-        <div className='flex justify-evenly items-start'>
-        <div className='w-96'>
-         
-        <FormField
-          control={form.control}
-          name="jobType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel  className = "font-extrabold text-[#4b95bc]" >Job Type</FormLabel>
-              <FormControl>
-                <select {...field} className="w-full p-2 border rounded bg-transparent">
-                  <option value="full-time">Full Time</option>
-                  <option value="part-time">Part Time</option>
-                  <option value="internship">Contract</option>
-                </select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        </div>
-        
-        <div className='flex justify-center items-center mt-6'>
-          <div>
-        <Button variant = "outline" type="submit" className = "bg-transparent text-[#4b95bc] w-96">Submit</Button>
-        </div>
-        </div>
-         </div>
-      </form>
+    <div
+      style={{ backgroundColor: isDarkTheme ? "#4D4D4D" : "white" }}
+      className="border-none p-6 sm:p-10 lg:p-16 rounded-lg"
+    >
+      <div className="flex justify-center">
+        <p className="mb-6 text-lg sm:text-xl lg:text-2xl font-extrabold">Post Job</p>
       </div>
-    </Form>
+  
+      <div className="flex justify-center items-center">
+        <Form {...form}>
+        <div className="w-full lg:w-[80%] xl:w-[70%]">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
+              {/* Company Field */}
+              <FormField
+                control={form.control}
+                name="company"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-extrabold text-[#4b95bc]">Company</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Company Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+  
+              {/* Position Field */}
+              <FormField
+                control={form.control}
+                name="position"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-extrabold text-[#4b95bc]">Position</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter Position" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+  
+              {/* Job Location Field */}
+              <FormField
+                control={form.control}
+                name="jobLocation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-extrabold text-[#4b95bc]">Job Location</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Location" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+  
+              {/* Job Description Field */}
+              <FormField
+                control={form.control}
+                name="jobDescription"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-extrabold text-[#4b95bc]">Job Description</FormLabel>
+                    <FormControl>
+                      <textarea
+                        {...field}
+                        placeholder='jobDescription......' className="w-full h-80 sm:h-96 p-2 border rounded bg-transparent resize-none"
+                      ></textarea>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+  
+              {/* Job Type Field */}
+              <FormField
+                control={form.control}
+                name="jobType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-extrabold text-[#4b95bc]">Job Type</FormLabel>
+                    <FormControl>
+                      <select
+                        {...field}
+                        className="w-full p-2 border rounded bg-transparent"
+                      >
+                        <option value="full-time">Full Time</option>
+                        <option value="part-time">Part Time</option>
+                        <option value="internship">Contract</option>
+                      </select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+  
+              {/* Submit Button */}
+              <div className="flex justify-center items-center mt-6">
+                <Button
+                  variant="outline"
+                  type="submit"
+                  className="bg-transparent text-[#4b95bc] w-full sm:w-96"
+                >
+                  Submit
+                </Button>
+              </div>
+            </form>
+          </div>
+        </Form>
+      </div>
     </div>
-  )
+  );
+  
 }
 
 export default AddJob

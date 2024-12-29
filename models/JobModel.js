@@ -1,14 +1,10 @@
 import mongoose from "mongoose";
-import { JobStatus, JobType } from "../utils/constants.js";
+import { JobType } from "../utils/constants.js";
 
 const JobSchema = new mongoose.Schema({
     company: String,
     position : String,
-    jobStatus : {
-        type : String,
-        enum: Object.values(JobStatus),
-        default: JobStatus.Pending
-    },
+    jobDescription : String,
     jobType : {
         type : String,
         enum: Object.values(JobType),

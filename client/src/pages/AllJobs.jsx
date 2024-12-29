@@ -32,7 +32,6 @@ const {jobs} = data;
   <jobsContext.Provider value={{data}}>
   <div>
     <SearchContainer />
-  <p className='m-4 text-2xl font-bold flex justify-center items-center'>{jobs.length} Jobs Found</p>
      <JobContainer/>
   </div>
   </jobsContext.Provider>

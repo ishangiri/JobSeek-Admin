@@ -799,6 +799,7 @@ const Wrapper = styled.section`
   display: grid;
   align-items: center;
   .logo {
+    height : 50px;
     display: block;
     margin: 0 auto;
     margin-bottom: 1.38rem;

@@ -1,8 +1,4 @@
-export const JobStatus = {
-    Pending : "pending",
-    Interview : "interview",
-    Declined : "declined"
-}
+
 
 export const JobType = {
     FullTime : "full-time",

@@ -1,6 +1,6 @@
 import { body, param,  validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
-import { JobStatus, JobType } from "../utils/constants.js";
+import {  JobType } from "../utils/constants.js";
 import mongoose from "mongoose";
 import User from "../models/userModel.js";
 import Job from "../models/JobModel.js";
@@ -26,7 +26,7 @@ export const validateJobInput = validationError([
   body('company').notEmpty().withMessage("company is required"),
   body('position').notEmpty().withMessage("position is required"),
   body('jobLocation').notEmpty().withMessage("Job Location is required"),
-  body('jobStatus').isIn(Object.values(JobStatus)).withMessage("invalid job status"),
+  body('jobDescription').notEmpty().withMessage("description is required"),
   body('jobType').isIn(Object.values(JobType)).withMessage("invalid job type")
  ]) 
 

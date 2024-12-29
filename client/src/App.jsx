@@ -12,7 +12,7 @@ import {
   Profile,
   Admin,
   OTP,
-  EditJob
+  EditJob,
 
 } from './pages'
 
