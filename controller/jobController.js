@@ -10,6 +10,8 @@ export const getAllJobs = async (req, res) => {
   
   //create Job controller
   export const createJob = async (req, res) => {
+    console.log(req.userData);
+    
     req.body.createdBy = req.userData.user;
   const job = await Job.create(req.body);
     res.status(StatusCodes.CREATED).json({ job });
@@ -49,3 +51,4 @@ export const getAllJobs = async (req, res) => {
     }
     res.status(200).json({ msg: 'job deleted' });
   };
+

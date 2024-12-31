@@ -37,7 +37,7 @@ const AddJob = () => {
     }),
     
     // Number field with min/max validation
-    jobDescription: z.string().min(20, {
+    jobDescription: z.string().min(2, {
       message : "Description must be atleast 20 characters"
     }),
     

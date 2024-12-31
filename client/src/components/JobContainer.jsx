@@ -18,11 +18,10 @@ const JobContainer = () => {
 
   
   useEffect(() => {
-   setJobs(jobs || [])
+   setJobs(jobs || []);
     return;
   },[jobs])
-
-
+  
 
   const deleteJob = async (jobID) => {
     try{
@@ -34,6 +33,7 @@ const JobContainer = () => {
       toast.error("Something went wrong");
     }
   }
+
    if(allJobs.length === 0){
      return  <p className='sm:m-48 m-4 text-2xl font-bold flex justify-center items-center'>No jobs to display....</p> 
    }
@@ -65,7 +65,7 @@ const JobContainer = () => {
           </div>
           <div className="flex justify-between">
             <p className="font-semibold">Applicants:</p>
-            <p className='border-2 border-none rounded-lg p-2 bg-slate-500' style={{color : 'white'}}>{job.jobStatus}</p>
+            <p className='border-2 border-none rounded-lg p-2 bg-slate-500' style={{color : 'white'}}>{job.applicants.length}</p>
           </div>
           <div className="flex justify-between">
             <p className="font-semibold">Job Type:</p>

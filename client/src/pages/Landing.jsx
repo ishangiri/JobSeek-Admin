@@ -1,7 +1,6 @@
 import React from 'react'
-import logo from '../assets/images/logo.webp';
+import background from '../assets/images/background.webp';
 import Wrapper from '../assets/wrappers/LandingPage';
-import main from '../assets/images/main.svg';
 import {Link} from 'react-router-dom';
 
 const Landing = () => {
@@ -23,7 +22,7 @@ const Landing = () => {
             <Link to="/register" className='btn register-link'>Register</Link>
             <Link to="/Login" className='btn  '>Login</Link>
         </div>
-        <img src={logo} alt="job hunt" className='img'/>
+        <img src={background} alt="job hunt" className=' img sm:h-96'/>
       </div>
     </Wrapper>
   )

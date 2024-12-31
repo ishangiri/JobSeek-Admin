@@ -6,7 +6,8 @@ import User from "../models/userModel.js";
 import Job from "../models/JobModel.js";
 import OTP from '../models/otpModel.js';
 
-const validationError = (validateValues) => {
+
+export const validationError = (validateValues) => {
   return [
     validateValues,
     (req, res, next) => {
@@ -49,7 +50,34 @@ export const validateJobInput = validationError([
           throw new Error("not authorized to access the job")
                
          }
+    })
+    ]);
 
+    //validate the job id
+ export const validateJobID = validationError([
+  param('id').custom( async (value) =>  {
+       const isValidMongoID = mongoose.Types.ObjectId.isValid(value);
+       if(!isValidMongoID){
+       throw new Error("id not valid")
+       }
+       const job = await Job.findById(value);
+       if(!job){
+        throw new Error("job with id not found")
+       }
+  })
+  ]);
+
+//validate the applicant id
+  export const validateApplicantID = validationError([
+    param('id').custom( async (value) =>  {
+         const isValidMongoID = mongoose.Types.ObjectId.isValid(value);
+         if(!isValidMongoID){
+         throw new Error("id not valid")
+         }
+         const user = await User.findById(value);
+         if(!user){
+          throw new Error("applicant with id not found")
+         }
     })
     ]);
 
@@ -64,7 +92,6 @@ export const validateJobInput = validationError([
         }
     } ),
     body('password').notEmpty().withMessage("password is required").isLength({min : 8}).withMessage('password must be 8 characters long'),
-    body('location').notEmpty().withMessage("location is required"),
     body('lastName').notEmpty().withMessage("lastName is required"),
     body('otp').notEmpty().withMessage("Otp required to verify your email").custom(async(otp, {req}) => {
       const email = req.body.email;
@@ -77,7 +104,6 @@ export const validateJobInput = validationError([
 
  export const validateUserUpdate = validationError([
   body('name').notEmpty().withMessage("name is required"),
-  body('location').notEmpty().withMessage("location is required"),
   body('lastName').notEmpty().withMessage("lastName is required"),
 ])
 

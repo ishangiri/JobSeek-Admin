@@ -1,7 +1,7 @@
 import 'express-async-errors';
 import * as dotenv from 'dotenv';
 import express from 'express';
-import { authenticateUser } from './middleware/authMIddleware.js';
+import { authenticateUser, authenticateApplicant } from './middleware/authMIddleware.js';
 import cookieParser from 'cookie-parser';
 
 
@@ -19,6 +19,7 @@ import router from './routes/jobRouter.js';
 import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRoutes.js';
 import otpRoute from './routes/otpRoute.js';
+import applicantRouter from './routes/applicantRouter.js';
 
 import mongoose from 'mongoose';
 
@@ -31,6 +32,8 @@ if (process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
 }
 
+//routes for applicants coming from applicantRouter
+app.use('/api/applicants', authenticateApplicant, applicantRouter);
 
 //routes for jobs coming from jobRouter
 app.use('/api/jobs', authenticateUser, router);

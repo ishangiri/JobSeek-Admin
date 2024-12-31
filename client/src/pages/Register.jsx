@@ -4,6 +4,7 @@ import Wrapper from "../assets/wrappers/RegisterAndLoginPage";
 import { Logo, FormInput } from "../components";
 import fetchData from "../utils/fetchUtil";
 import { toast } from "react-toastify";
+
 export const registerFormSubmission = async ({ request }) => {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
@@ -39,7 +40,7 @@ const Register = () => {
        navigate('/OTP', {state : actionData.registrationData})
 
     } else if (actionData?.error){
-      toast.error("Registration error")
+      toast.error("Otp invalid")
     }
   }, [actionData, navigate])
 
@@ -54,7 +55,6 @@ const Register = () => {
           name="lastName"
           labelText="last name"
         />
-        <FormInput type="text" name="location" />
         <FormInput type="email" name="email" />
         <FormInput type="password" name="password"/>
         <button type='submit' className='btn btn-block' hidden={isSubmitting}>

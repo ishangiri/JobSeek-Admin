@@ -17,6 +17,24 @@ export const authenticateUser = (req,res,next) => {
  }
 } 
 
+//this middleware sits between the applicantRouters to validate the user by verifying the cookie and token created by user when loggin in.
+export const authenticateApplicant = (req, res, next) => {
+
+   const {token} = req.cookies;
+   if(!token){
+         res.status(StatusCodes.UNAUTHORIZED).json({msg : "authentication invalid"})
+   }
+   try{
+      const user = verifyJWT(token);
+      req.userData = user ;
+      next();
+   }catch(error){
+      res.status(StatusCodes.UNAUTHORIZED).json({msg : "authentication invalid"})
+      console.log(error);
+   }
+
+}
+
 
 export const checkIfAdmin = (req,res,next) => {
 

@@ -1,8 +1,11 @@
 import otpGenerator from 'otp-generator';
 import OTP from '../models/otpModel.js';
 import User from '../models/userModel.js';
+import Applicant from '../models/ApplicantModel.js';
+import ApplicantOTP from '../models/ApplicantOtpModel.js';
 
 
+//this is for the user(employer) otp
  export const sendOTP = async (req, res) => {
   try {
     const { email } = req.body;
@@ -39,3 +42,47 @@ import User from '../models/userModel.js';
     return res.status(500).json({ success: false, error: error.message });
   }
 };
+
+
+
+//this is for the applicant(client side) otp
+export const sendApplicantOTP = async (req, res) => {
+
+try{
+  const {email} = req.body;
+  const checkApplicant = await Applicant.findOne({email});
+  
+  if(checkApplicant){
+    return res.status(401).json({
+      success : false,
+      message : "Applicant already registered"
+    })
+  }
+  let otp = otpGenerator.generate(6, {
+    upperCaseAlphabets: false,
+    lowerCaseAlphabets: false,
+    specialChars: false,
+  });
+
+  let result = await ApplicantOTP.findOne({otp : otp});
+  while(result){
+    otp = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+    });
+    result = await ApplicantOTP.findOne({otp : otp});
+  }
+  const otpPayload = {email, otp};
+  const otpBody = await ApplicantOTP.create(otpPayload);
+ res.status(200).json({
+    success : true,
+    message : "OTP sent successfully",
+    otp,
+    });
+
+} catch( error ){
+  console.log(error.message);
+  return res.status(500).json({success : false, error : error.message});
+}
+
+
+}
