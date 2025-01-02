@@ -21,6 +21,7 @@ import { submitOTP } from "./pages/Otp.jsx";
 import { loginUser } from "./pages/Login.jsx";
 import { loadJobs } from "./pages/AllJobs.jsx";
 import { editJobLoader } from "./pages/EditJob.jsx";
+import { loadUser } from "./pages/AddJob.jsx";
 
  export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem('darkTheme') === 'true';
@@ -62,7 +63,8 @@ const router =  createBrowserRouter([
         children:[
           {
             index: true,
-            element: <AddJob />
+            element: <AddJob />,
+            loader : loadUser
           }, 
           {
             path: 'stats',

@@ -15,10 +15,28 @@ import { Input } from "@/components/ui/input"
 import fetchData from '../utils/fetchUtil'
 import { toast } from 'react-toastify'
 import { useDashboardContext } from './DashboardLayout'
+import { useLoaderData } from 'react-router-dom'
+
+export const loadUser = async() => {
+  try {
+    const response = await fetchData.get("/users/getUser");
+    const fetchedName = response.data.userWIthoutpass.company;
+    const location = response.data.userWIthoutpass.location;
+    return {company : fetchedName, location : location};
+  } catch (error) {
+    return error
+  }  
+}
 
 const AddJob = () => {
 
-  const { isDarkTheme } = useDashboardContext();
+  const { isDarkTheme} = useDashboardContext();
+  const user = useLoaderData(); 
+
+
+
+  
+  
  
   const formSchema = z.object({
     // Basic string validation
@@ -51,9 +69,9 @@ const AddJob = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      company: "",
+      company: user.company,
       position: "",
-      jobLocation: "",
+      jobLocation: user.location,
       jobDescription: "",
       jobType: "full-time"
     }
@@ -79,7 +97,7 @@ const AddJob = () => {
       className="border-none p-6 sm:p-10 lg:p-16 rounded-lg"
     >
       <div className="flex justify-center">
-        <p className="mb-6 text-lg sm:text-xl lg:text-2xl font-extrabold">Post Job</p>
+        <p className="mb-6 text-lg sm:text-xl lg:text-2xl font-extrabold text-[#4b95bc]">Post Job</p>
       </div>
   
       <div className="flex justify-center items-center">
@@ -94,7 +112,7 @@ const AddJob = () => {
                   <FormItem>
                     <FormLabel className="font-extrabold text-[#4b95bc]">Company</FormLabel>
                     <FormControl>
-                      <Input placeholder="Company Name" {...field} />
+                      <Input placeholder="Company Name" {...field}    readOnly/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -124,7 +142,7 @@ const AddJob = () => {
                   <FormItem>
                     <FormLabel className="font-extrabold text-[#4b95bc]">Job Location</FormLabel>
                     <FormControl>
-                      <Input placeholder="Location" {...field} />
+                      <Input placeholder="Location" {...field}  readOnly/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

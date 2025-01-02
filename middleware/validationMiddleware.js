@@ -83,7 +83,7 @@ export const validateJobInput = validationError([
 
 
  export const validateUserRegister = validationError([
-    body('name').notEmpty().withMessage("name is required"),
+    body('company').notEmpty().withMessage("company is required"),
     body('email').notEmpty().withMessage("email is required").isEmail().withMessage('invalid email')
     .custom(async(email) => {
         const user = await User.findOne({email})
@@ -92,7 +92,7 @@ export const validateJobInput = validationError([
         }
     } ),
     body('password').notEmpty().withMessage("password is required").isLength({min : 8}).withMessage('password must be 8 characters long'),
-    body('lastName').notEmpty().withMessage("lastName is required"),
+    body('location').notEmpty().withMessage("location is required"),
     body('otp').notEmpty().withMessage("Otp required to verify your email").custom(async(otp, {req}) => {
       const email = req.body.email;
       const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
@@ -103,8 +103,8 @@ export const validateJobInput = validationError([
  ])
 
  export const validateUserUpdate = validationError([
-  body('name').notEmpty().withMessage("name is required"),
-  body('lastName').notEmpty().withMessage("lastName is required"),
+  body('company').notEmpty().withMessage("company is required"),
+  body('location').notEmpty().withMessage("location is required"),
 ])
 
  export const validateLogin = validationError([

@@ -19,8 +19,6 @@ const ApplicantSchema = new mongoose.Schema({
             }
         }
     ]
-
-
 })
 
 ApplicantSchema.methods.toJSON = function(){

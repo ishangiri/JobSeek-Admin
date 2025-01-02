@@ -49,11 +49,10 @@ const Register = () => {
       <Form method="post" className="form">
         <Logo />
         <h4>Register</h4>
-        <FormInput type="text" name="name"/>
+        <FormInput type="text" name="company"/>
         <FormInput
           type="text"
-          name="lastName"
-          labelText="last name"
+          name="location"
         />
         <FormInput type="email" name="email" />
         <FormInput type="password" name="password"/>
