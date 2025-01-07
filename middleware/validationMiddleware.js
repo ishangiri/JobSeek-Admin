@@ -26,6 +26,7 @@ export const validationError = (validateValues) => {
 export const validateJobInput = validationError([
   body('company').notEmpty().withMessage("company is required"),
   body('position').notEmpty().withMessage("position is required"),
+  body('salary').notEmpty().withMessage('Salary is required'),
   body('jobLocation').notEmpty().withMessage("Job Location is required"),
   body('jobDescription').notEmpty().withMessage("description is required"),
   body('jobType').isIn(Object.values(JobType)).withMessage("invalid job type")

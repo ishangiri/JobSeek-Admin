@@ -23,7 +23,7 @@ import SearchContainer from '../components/SearchContainer'
 const AllJobs = () => {
 
 const {data} = useLoaderData();
-const {jobs} = data;
+
 
 
 

@@ -3,9 +3,11 @@ import * as dotenv from 'dotenv';
 import express from 'express';
 import { authenticateUser, authenticateApplicant } from './middleware/authMIddleware.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 
 const app = express();
+app.use(cors());
 
 
 app.use(cookieParser());
@@ -20,8 +22,10 @@ import authRouter from './routes/authRouter.js';
 import userRouter from './routes/userRoutes.js';
 import otpRoute from './routes/otpRoute.js';
 import applicantRouter from './routes/applicantRouter.js';
+import nonAuthenticatedRouter from './routes/nonAuthenticatedRouter.js';
 
 import mongoose from 'mongoose';
+
 
 
 dotenv.config();
@@ -31,6 +35,15 @@ const port = process.env.PORT || 5100;
 if (process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
 }
+
+
+  //test route
+  app.get('/test', (req, res) => {
+    res.send('Hello World!');
+});
+
+
+app.use('/applicants/jobs', nonAuthenticatedRouter);
 
 //routes for applicants coming from applicantRouter
 app.use('/api/applicants', authenticateApplicant, applicantRouter);

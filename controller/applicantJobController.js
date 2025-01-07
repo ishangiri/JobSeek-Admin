@@ -52,3 +52,9 @@ export const applyJob = async (req, res) => {
 //   }
 //   res.status(StatusCodes.OK).json({applicants : job.applicants});
 // }
+
+//get all the jobs posted by admins
+export const getAllJobs = async (req, res) => {
+  const jobs = await Job.find();
+  res.status(StatusCodes.OK).json({jobs});
+}

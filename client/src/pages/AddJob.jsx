@@ -20,6 +20,8 @@ import { useLoaderData } from 'react-router-dom'
 export const loadUser = async() => {
   try {
     const response = await fetchData.get("/users/getUser");
+    
+    
     const fetchedName = response.data.userWIthoutpass.company;
     const location = response.data.userWIthoutpass.location;
     return {company : fetchedName, location : location};
@@ -48,6 +50,10 @@ const AddJob = () => {
     position: z.string().min(2, { 
       message: "position must be atleast 2 characters" 
     }),
+
+    salary: z.string().min(2, {
+      message : "Salary must be atleast 2 characters"
+    }),
     
     //JOb Location validation
     jobLocation: z.string().min(2,{
@@ -71,7 +77,8 @@ const AddJob = () => {
     defaultValues: {
       company: user.company,
       position: "",
-      jobLocation: user.location,
+      salary : "",
+      jobLocation: "",
       jobDescription: "",
       jobType: "full-time"
     }
@@ -133,6 +140,20 @@ const AddJob = () => {
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="salary"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-extrabold text-[#4b95bc]">Salary</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Salary" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
   
               {/* Job Location Field */}
               <FormField
@@ -142,7 +163,7 @@ const AddJob = () => {
                   <FormItem>
                     <FormLabel className="font-extrabold text-[#4b95bc]">Job Location</FormLabel>
                     <FormControl>
-                      <Input placeholder="Location" {...field}  readOnly/>
+                      <Input placeholder="Location" {...field}/>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

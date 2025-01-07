@@ -5,6 +5,7 @@ const JobSchema = new mongoose.Schema({
     company: String,
     position : String,
     jobDescription : String,
+    Salary : String,
     jobType : {
         type : String,
         enum: Object.values(JobType),
