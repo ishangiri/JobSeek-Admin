@@ -10,5 +10,4 @@ router.route('/jobs/:id').get(validateJobID, getOneJOb);
 router.route('/applyJob/:id').post( validateJobID,  upload.single('resume'), applyJob);
 router.get('/getApplicant', getApplicant);
 
-
 export default router;

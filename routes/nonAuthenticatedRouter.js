@@ -8,4 +8,5 @@ const router = Router();
 router.route('/').get(getAllJobs);
 
 
+
 export default router;

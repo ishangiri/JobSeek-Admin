@@ -33,7 +33,7 @@ export const applyJob = async (req, res) => {
       return res.status(StatusCodes.NOT_FOUND).json({ msg: `No job with id ${id}` });
     }
 
-    if (job.applicants.includes(applicant)) {
+    if (job.applicants.some(app => app.applicantId.toString() === applicant.toString())) {
       return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Already applied for this job" });
     }
 
