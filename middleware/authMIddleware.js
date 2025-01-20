@@ -22,14 +22,15 @@ export const authenticateApplicant = (req, res, next) => {
 
    const {token} = req.cookies;
    if(!token){
-         res.status(StatusCodes.UNAUTHORIZED).json({msg : "authentication invalid"})
+       return  res.status(StatusCodes.UNAUTHORIZED).json({msg : "authentication invalid"})
    }
    try{
       const user = verifyJWT(token);
       req.userData = user ;
+      console.log(req.userData);
       next();
    }catch(error){
-      res.status(StatusCodes.UNAUTHORIZED).json({msg : "authentication invalid"})
+    return  res.status(StatusCodes.UNAUTHORIZED).json({msg : "authentication invalid"})
       console.log(error);
    }
 

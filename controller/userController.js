@@ -11,6 +11,8 @@ export const getCurrentUser = async(req,res) => {
 
 }
 
+
+
 export const getAppStats = async(req,res) => {
     const user = await User.countDocuments();
     const jobs = await Job.countDocuments();

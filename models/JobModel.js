@@ -5,7 +5,7 @@ const JobSchema = new mongoose.Schema({
     company: String,
     position : String,
     jobDescription : String,
-    Salary : String,
+    salary : String,
     jobType : {
         type : String,
         enum: Object.values(JobType),
@@ -19,10 +19,16 @@ const JobSchema = new mongoose.Schema({
         type : mongoose.Types.ObjectId,
         ref : 'User',
     },
-    applicants : [{
+    applicants : [
+        {
+       applicantId :     {
         type : mongoose.Types.ObjectId,
-        ref : 'Applicant'
-    }]
+        ref : 'Applicant',
+    }, 
+     
+        resume : String,
+},
+]
 
 }, {timestamps : true})
 

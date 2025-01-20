@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import User from "../models/userModel.js";
 import Job from "../models/JobModel.js";
 import OTP from '../models/otpModel.js';
+import Applicant from "../models/ApplicantModel.js";
 
 
 export const validationError = (validateValues) => {
@@ -75,7 +76,7 @@ export const validateJobInput = validationError([
          if(!isValidMongoID){
          throw new Error("id not valid")
          }
-         const user = await User.findById(value);
+         const user = await Applicant.findById(value);
          if(!user){
           throw new Error("applicant with id not found")
          }

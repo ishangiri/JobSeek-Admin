@@ -16,9 +16,9 @@ const ApplicantSchema = new mongoose.Schema({
                 type : String,
                 enum : ['pending', 'declined', 'interview'],
                 default : 'pending'
-            }
+            },
         }
-    ]
+    ],
 })
 
 ApplicantSchema.methods.toJSON = function(){

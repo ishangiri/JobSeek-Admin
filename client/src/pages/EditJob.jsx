@@ -51,6 +51,10 @@ const EditJob = () => {
     position: z.string().min(2, { 
       message: "position must be atleast 2 characters" 
     }),
+
+    salary : z.string().min(2, {
+      message : "Salary must be 2 characters"
+    }),
     
     //JOb Location validation
     jobLocation: z.string().min(2,{
@@ -74,6 +78,7 @@ const EditJob = () => {
     defaultValues: {
       company: job.company,
       position: job.position,
+      salary : job.salary,
       jobLocation: job.jobLocation,
       jobDescription: job.jobDescription,
       jobType: job.jobType
@@ -138,6 +143,21 @@ return (
                 </FormItem>
               )}
             />
+
+                <FormField
+              control={form.control}
+              name="salary"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-extrabold text-[#4b95bc]">Salary Range</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Salary Range" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
 
             {/* Job Location Field */}
             <FormField

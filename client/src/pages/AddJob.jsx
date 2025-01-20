@@ -63,6 +63,7 @@ const AddJob = () => {
     // Number field with min/max validation
     jobDescription: z.string().min(2, {
       message : "Description must be atleast 20 characters"
+      
     }),
     
     // Enum or specific string values
@@ -140,13 +141,12 @@ const AddJob = () => {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="salary"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-extrabold text-[#4b95bc]">Salary</FormLabel>
+                    <FormLabel className="font-extrabold text-[#4b95bc]">Salary Range</FormLabel>
                     <FormControl>
                       <Input placeholder="Salary" {...field} />
                     </FormControl>
@@ -154,7 +154,6 @@ const AddJob = () => {
                   </FormItem>
                 )}
               />
-  
               {/* Job Location Field */}
               <FormField
                 control={form.control}
@@ -179,6 +178,7 @@ const AddJob = () => {
                     <FormLabel className="font-extrabold text-[#4b95bc]">Job Description</FormLabel>
                     <FormControl>
                       <textarea
+                       
                         {...field}
                         placeholder='jobDescription......' className="w-full h-80 sm:h-96 p-2 border rounded bg-transparent resize-none"
                       ></textarea>
