@@ -9,12 +9,14 @@ import {
     createJob,
     updateJob,
     deleteJob,
+    getAllApplicants,
   } from '../controller/jobController.js';
 
 
   
   router.route('/').get(getAllJobs).post(validateJobInput, createJob);
 router.route('/:id').get(validateIdParam, getJob).patch( validateJobInput , validateIdParam, updateJob).delete(validateIdParam, deleteJob);
+router.route('/applicants/:id').get(getAllApplicants);
 
 
 export default router;

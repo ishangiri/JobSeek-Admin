@@ -7,7 +7,48 @@ export const getAllJobs = async (req, res) => {
   const jobs = await Job.find({createdBy: req.userData.user});
     res.status(StatusCodes.OK).json({ jobs });
   };
-  
+
+  export const getAllApplicants = async (req, res) => {
+    const  {id} = req.params;
+    try {
+        const job = await Job.findById(id).populate({
+            path: 'applicants.applicantId',
+            model: 'Applicant',
+            select: 'name email lastName location resume appliedJobs' // Select the fields you want to retrieve
+        });
+
+        if (!job) {
+            throw new Error('Job not found');
+        }
+
+        // Extract applicants from the job
+   const applicants = job.applicants.map(applicant => { 
+     
+    const appliedJOb = applicant.applicantId.appliedJobs.find(appliedJob => appliedJob.jobId.toString() === id);
+
+    return {
+      applicantId: applicant.applicantId._id,
+      name: applicant.applicantId.name,
+      email: applicant.applicantId.email,
+      lastName: applicant.applicantId.lastName,
+      location: applicant.applicantId.location,
+      resume: applicant.resume,
+      status: appliedJOb ? appliedJOb.status : 'pending'
+    };
+   });
+    
+      res.status(StatusCodes.OK).json({ applicants });
+       
+
+    } catch (error) {
+        console.error('Error fetching applicants:', error);
+        throw error;
+    }
+};
+
+
+
+
   //create Job controller
   export const createJob = async (req, res) => {
     console.log(req.userData);

@@ -28,3 +28,7 @@ ApplicantSchema.methods.toJSON = function(){
 }
 
 export default mongoose.model('Applicant', ApplicantSchema);
+
+
+
+

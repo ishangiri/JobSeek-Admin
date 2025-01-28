@@ -1,7 +1,7 @@
 export {default as DashBoardLayout} from './DashboardLayout';
 export {default as Landing} from './Landing';
 export {default as AddJob} from './AddJob';
-export {default as Stats} from './Stats';
+export {default as ViewApplicants} from './ViewApplicants';
 export {default as Register} from './Register';
 export {default as Profile} from './Profile';
 export {default as Login} from './Login';

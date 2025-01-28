@@ -7,12 +7,12 @@ import {
   DashBoardLayout,
   Error,
   AddJob,
-  Stats,
   AllJobs,
   Profile,
   Admin,
   OTP,
   EditJob,
+  ViewApplicants
 
 } from './pages'
 
@@ -20,6 +20,7 @@ import { registerFormSubmission } from "./pages/Register.jsx";
 import { submitOTP } from "./pages/Otp.jsx";
 import { loginUser } from "./pages/Login.jsx";
 import { loadJobs } from "./pages/AllJobs.jsx";
+import { fetchJobs } from "./pages/ViewApplicants.jsx";
 import { editJobLoader } from "./pages/EditJob.jsx";
 import { loadUser } from "./pages/AddJob.jsx";
 
@@ -67,10 +68,6 @@ const router =  createBrowserRouter([
             loader : loadUser
           }, 
           {
-            path: 'stats',
-            element: <Stats />
-          },
-          {
             path: 'all-jobs',
             element: <AllJobs/>,
             loader : loadJobs
@@ -88,8 +85,13 @@ const router =  createBrowserRouter([
             path : 'edit-job/:id',
             element : <EditJob />,
             loader : editJobLoader
-          }
+          }, 
+           {   
 
+          path : 'view-applicants/:id',
+          element : <ViewApplicants />,
+          loader : fetchJobs
+           }
         ]
       },
     ]

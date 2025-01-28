@@ -38,14 +38,17 @@ export const loginApplicant = async (req, res) => {
   res.status(StatusCodes.OK).json({msg : "login success"})
   
 }
-// logout applicant
-export const logOutApplicant = (req,res) => {
-res.cookie('token', 'logout', {
-  httpOnly : true,
-  expires : new Date(Date.now()),
-});
-  res.status(StatusCodes.OK).json({msg : "Logout success"})
- }
+// server/controllers/authController.ts
+export const logOutApplicant = (req, res) => {
+  res.cookie('token', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now()), // Expire immediately
+    secure: process.env.NODE_ENV === 'production', // For HTTPS
+    sameSite: 'strict', // Prevent CSRF
+    path: '/', // Clear cookie for all paths
+  });
+  res.status(StatusCodes.OK).json({ msg: "Logout success" });
+};
 
 
 

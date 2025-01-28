@@ -83,6 +83,12 @@ const JobContainer = () => {
             </Button>
             <Button variant = "destructive" onClick = {() => deleteJob(jobID)}>Delete</Button>
           </div>
+          <div className='flex justify-center items-center'>
+          <Button asChild style = {{backgroundColor : "transparent"}} variant="outline">
+              <Link to = {`../view-applicants/${jobID}`} > View Applicants </Link>
+
+            </Button>
+          </div>
 
         </section>
         </div>

@@ -6,6 +6,7 @@ import JobContainer from '../components/JobContainer'
 import SearchContainer from '../components/SearchContainer'
 
 
+
    const jobsContext = createContext();
   export const loadJobs = async ({ request }) => {
     try {
