@@ -1,5 +1,6 @@
 
 import Job from '../models/JobModel.js' ;
+import Applicant from '../models/ApplicantModel.js';
 import { StatusCodes } from 'http-status-codes';
 
 //getting all the jobs
@@ -8,13 +9,14 @@ export const getAllJobs = async (req, res) => {
     res.status(StatusCodes.OK).json({ jobs });
   };
 
+  //get the applicants that applied to the job.
   export const getAllApplicants = async (req, res) => {
     const  {id} = req.params;
     try {
         const job = await Job.findById(id).populate({
             path: 'applicants.applicantId',
             model: 'Applicant',
-            select: 'name email lastName location resume appliedJobs' // Select the fields you want to retrieve
+            select: 'name email lastName location resume appliedJobs'
         });
 
         if (!job) {
@@ -46,7 +48,29 @@ export const getAllJobs = async (req, res) => {
     }
 };
 
+//update status
+export const updateApplicantStatus = async (req, res) => {
+  const { id, applicantId } = req.params;
+  const { status } = req.body;
 
+  try {
+         const applicant = await Applicant.findById(applicantId);
+
+        //check if the applicant exists
+         const appliedJob =  applicant.appliedJobs.find(appliedJob => appliedJob.jobId.toString() === id);
+           if(!appliedJob){
+             throw new Error('Job not found');
+           }
+           //update the status
+            appliedJob.status = status;
+            //save the applicant schema
+            await applicant.save();
+            res.status(StatusCodes.OK).json({ msg: 'Applicant status updated' });
+    }catch (error) {
+      console.error('Error updating applicant status:', error);
+      throw error;
+}
+}
 
 
   //create Job controller

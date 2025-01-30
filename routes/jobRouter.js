@@ -3,6 +3,7 @@ const router = Router();
  
 import { validateJobInput, validateIdParam } from '../middleware/validationMiddleware.js';
 
+
 import {
     getAllJobs,
     getJob,
@@ -10,6 +11,7 @@ import {
     updateJob,
     deleteJob,
     getAllApplicants,
+    updateApplicantStatus
   } from '../controller/jobController.js';
 
 
@@ -17,6 +19,7 @@ import {
   router.route('/').get(getAllJobs).post(validateJobInput, createJob);
 router.route('/:id').get(validateIdParam, getJob).patch( validateJobInput , validateIdParam, updateJob).delete(validateIdParam, deleteJob);
 router.route('/applicants/:id').get(getAllApplicants);
+router.route('/applicant/:applicantId/job/:id').patch(validateIdParam, updateApplicantStatus);
 
 
 export default router;

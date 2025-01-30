@@ -63,7 +63,7 @@ export const applyJob = async (req, res) => {
         Bucket: process.env.AWS_BUCKET_NAME,
         Key: fileName,
       }), {
-        expiresIn: 3600, // URL expires in 1 hour
+        expiresIn: (28800 * 60), // URL expires in 20 days
       });
     } catch (error) {
       console.error("Error generating pre-signed URL:", error);
@@ -105,21 +105,9 @@ export const getOneJOb = async(req, res) => {
       res.status(200).json({ job });
 }
 
-// //get all the jobs applied by the applicant
-// export const getAppliedJobs = async (req, res) => {
-//   const jobs = await Job.find({applicants : req.userData.user});
-//   res.status(StatusCodes.OK).json({jobs});
-// }
 
-// //get all the applicants applied for the job
-// export const getApplicants = async (req, res) => {
-//   const { id } = req.params;
-//   const job = await Job.findById(id).populate('applicants');
-//   if(!job){
-//     return res.status(StatusCodes.BAD_REQUEST).json({msg : `no job with id ${id}`});
-//   }
-//   res.status(StatusCodes.OK).json({applicants : job.applicants});
-// }
+
+
 
 //get all the jobs posted by admins
 export const getAllJobs = async (req, res) => {
