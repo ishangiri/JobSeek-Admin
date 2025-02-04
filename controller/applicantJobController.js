@@ -55,25 +55,14 @@ export const applyJob = async (req, res) => {
       console.error("S3 Upload Error:", error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Error uploading file to S3" });
     }
-
-    // Generate a pre-signed URL
-    let preSignedUrl;
-    try {
-      preSignedUrl = await getSignedUrl(s3, new GetObjectCommand({
-        Bucket: process.env.AWS_BUCKET_NAME,
-        Key: fileName,
-      }), {
-        expiresIn: (28800 * 60), // URL expires in 20 days
-      });
-    } catch (error) {
-      console.error("Error generating pre-signed URL:", error);
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Error generating file URL" });
-    }
+  
+    //resume url
+    const resumeUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileName}`;
 
     // Add applicant to the job
     job.applicants.push({
       applicantId,
-      resume: preSignedUrl,
+      resume: resumeUrl,
     });
 
     // Add job to the applicant's applied jobs

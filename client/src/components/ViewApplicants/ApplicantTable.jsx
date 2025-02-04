@@ -23,7 +23,9 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange })
     borderColor: isDarkTheme ? "border-gray-600" : "border-gray-200",
   };
 
+  //local states for the select input value
   const [localStatus, setLocalStatus] = useState("");
+  //local state for applicant id.
   const [selectedApplicantId, setSelectedApplicantId] = useState(""); 
 
   // Define status options
