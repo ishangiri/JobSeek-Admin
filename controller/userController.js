@@ -21,12 +21,12 @@ export const getAppStats = async(req,res) => {
 }
 
 export const updateUser = async(req,res) => {
-    const {name, lastName, location} = req.body;
+    const {company, location} = req.body;
     if(req.body.email){
         res.status(StatusCodes.BAD_REQUEST).json({ msg : "cannot update email"})
     }
     try{
-        const updatedUser = await User.findByIdAndUpdate(req.userData.user, {name, location, lastName} ); 
+        const updatedUser = await User.findByIdAndUpdate(req.userData.user, {company, location} ); 
     }catch(err){
         res.status(StatusCodes.BAD_REQUEST).json({err});
     }

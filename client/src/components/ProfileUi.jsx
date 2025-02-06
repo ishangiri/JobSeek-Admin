@@ -1,0 +1,200 @@
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Camera, Edit2 } from 'lucide-react';
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle 
+} from '@/components/ui/card';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { useDashboardContext } from '../pages/DashboardLayout';
+import { useState, useEffect } from 'react';
+import fetchData from '../utils/fetchUtil';
+import { toast } from 'react-toastify';
+
+const formSchema = z.object({
+  company: z.string().min(2, {
+    message: "Company name must be at least 2 characters.",
+  }),
+  location: z.string().min(2, {
+    message: "Location must be at least 2 characters.",
+  }),
+});
+
+const CompanyProfile = () => {
+  const { user } = useDashboardContext();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      company: '',
+      location: '',
+    },
+  });
+
+  useEffect(() => {
+    if (user?.company || user?.location) {
+      form.reset({
+        company: user.company || '',
+        location: user.location || '',
+      });
+      setIsLoading(false);
+    }
+  }, [user, form]);
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    try{
+      await fetchData.patch("users/updateUser", data);
+      toast.success("Company updated successfully");
+    } catch(err) {
+         console.log(err);
+         toast.error(err?.response.data.message)
+         
+    }
+   
+    setIsEditing(false);
+  };
+
+  if (isLoading) {
+    return (
+      <Card className="w-full max-w-xl mx-auto">
+        <CardContent className="p-6">
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <Card className="w-full max-w-xl mx-auto">
+      <CardHeader className="space-y-1">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-2xl font-bold">Company Profile</CardTitle>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => setIsEditing(!isEditing)}
+          >
+            <Edit2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className="p-6">
+        <div className="flex flex-col items-center space-y-6">
+          {/* Avatar Section */}
+          <div className="relative">
+            <div className="w-32 h-32 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg">
+              <img 
+                src="/api/placeholder/128/128" 
+                alt="Company avatar" 
+                className="w-full h-full object-cover" 
+              />
+            </div>
+            {isEditing && (
+              <label 
+                htmlFor="avatar-upload" 
+                className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg cursor-pointer hover:bg-gray-50 border border-gray-200"
+              >
+                <Camera className="w-5 h-5 text-gray-600" />
+                <input
+                  id="avatar-upload"
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                />
+              </label>
+            )}
+          </div>
+
+          {/* Email display */}
+          <div className="text-center">
+            <p className="text-sm text-gray-500">Email</p>
+            <p className="font-medium">{user?.email}</p>
+          </div>
+
+          <Separator className="my-4" />
+
+          {/* Form */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+              <FormField
+                control={form.control}
+                name="company"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company Name</FormLabel>
+                    <FormControl>
+                      {isEditing ? (
+                        <Input {...field} className="w-full" />
+                      ) : (
+                        <p className="text-gray-700 pt-2">{field.value}</p>
+                      )}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Location</FormLabel>
+                    <FormControl>
+                      {isEditing ? (
+                        <Input {...field} className="w-full" />
+                      ) : (
+                        <p className="text-gray-700 pt-2">{field.value}</p>
+                      )}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {isEditing && (
+                <div className="flex gap-4">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => {
+                      setIsEditing(false);
+                      form.reset();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button type="submit" className="w-full">
+                    Save Changes
+                  </Button>
+                </div>
+              )}
+            </form>
+          </Form>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export default CompanyProfile;

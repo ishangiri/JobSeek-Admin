@@ -1,8 +1,10 @@
 import React from 'react'
-
+import CompanyProfile from '../components/ProfileUi'
 const Profile = () => {
   return (
-    <div>Profile</div>
+    <div>
+      <CompanyProfile />
+    </div>
   )
 }
 
