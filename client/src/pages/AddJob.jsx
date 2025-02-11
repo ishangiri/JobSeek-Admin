@@ -9,14 +9,29 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
+  FormDescription
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import fetchData from '../utils/fetchUtil'
 import { toast } from 'react-toastify'
 import { useDashboardContext } from './DashboardLayout'
 import { useLoaderData } from 'react-router-dom'
-
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle 
+} from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { Building2, MapPin, BriefcaseIcon, DollarSign, FileText, Clock } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 export const loadUser = async() => {
   try {
     const response = await fetchData.get("/users/getUser");
@@ -100,131 +115,156 @@ const AddJob = () => {
   }
 
   return (
-    <div
-      style={{ backgroundColor: isDarkTheme ? "#4D4D4D" : "white" }}
-      className="border-none p-6 sm:p-10 lg:p-16 rounded-lg"
-    >
-      <div className="flex justify-center">
-        <p className="mb-6 text-lg sm:text-xl lg:text-2xl font-extrabold text-[#4b95bc]">Post Job</p>
-      </div>
-  
-      <div className="flex justify-center items-center">
-        <Form {...form}>
-        <div className="w-full lg:w-[80%] xl:w-[70%]">
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 sm:space-y-8">
-              {/* Company Field */}
-              <FormField
-                control={form.control}
-                name="company"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-extrabold text-[#4b95bc]">Company</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Company Name" {...field}    readOnly/>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-  
-              {/* Position Field */}
-              <FormField
-                control={form.control}
-                name="position"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-extrabold text-[#4b95bc]">Position</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter Position" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="salary"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-extrabold text-[#4b95bc]">Salary Range</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Salary" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Job Location Field */}
-              <FormField
-                control={form.control}
-                name="jobLocation"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-extrabold text-[#4b95bc]">Job Location</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Location" {...field}/>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-  
-              {/* Job Description Field */}
-              <FormField
-                control={form.control}
-                name="jobDescription"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-extrabold text-[#4b95bc]">Job Description</FormLabel>
-                    <FormControl>
-                      <textarea
-                       
-                        {...field}
-                        placeholder='jobDescription......' className="w-full h-80 sm:h-96 p-2 border rounded bg-transparent resize-none"
-                      ></textarea>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-  
-              {/* Job Type Field */}
-              <FormField
-                control={form.control}
-                name="jobType"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-extrabold text-[#4b95bc]">Job Type</FormLabel>
-                    <FormControl>
-                      <select
-                        {...field}
-                        className="w-full p-2 border rounded bg-transparent"
-                      >
-                        <option value="full-time">Full Time</option>
-                        <option value="part-time">Part Time</option>
-                        <option value="internship">Contract</option>
-                      </select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-  
-              {/* Submit Button */}
-              <div className="flex justify-center items-center mt-6">
-                <Button
-                  variant="outline"
-                  type="submit"
-                  className="bg-transparent text-[#4b95bc] w-full sm:w-96"
-                >
-                  Submit
-                </Button>
-              </div>
-            </form>
+    <div>
+    <Card style = {{backgroundColor : isDarkTheme? "#3F3F3F" : "white", color : isDarkTheme ? "white" : "black"}} className="  w-full max-w-4xl mx-auto">
+    <CardHeader className="space-y-1">
+      <CardTitle className="text-2xl font-bold text-center text-[#4b95bc]">
+        Post a New Job
+      </CardTitle>
+      <p className="text-sm text-gray-500 dark:text-gray-400 text-center">
+        Fill in the details below to create a new job posting
+      </p>
+    </CardHeader>
+    <CardContent>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid gap-6 md:grid-cols-2">
+            <FormField
+              control={form.control}
+              name="company"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center gap-2">
+                    <Building2 className="w-4 h-4 text-[#4b95bc]" />
+                    Company
+                  </FormLabel>
+                  <FormControl>
+                    <Input 
+                      {...field} 
+                      readOnly
+                      className=" dark:bg-gray-800"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="position"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center gap-2">
+                    <BriefcaseIcon className="w-4 h-4 text-[#4b95bc]" />
+                    Position
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="e.g. Senior Developer" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="salary"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center gap-2">
+                    <DollarSign className="w-4 h-4 text-[#4b95bc]" />
+                    Salary Range
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="e.g. $80,000 - $100,000" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="jobLocation"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-[#4b95bc]" />
+                    Location
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="e.g. New York, NY" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
-        </Form>
-      </div>
-    </div>
+
+          <Separator className="my-6" />
+
+          <FormField
+            control={form.control}
+            name="jobType"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#4b95bc]" />
+                  Job Type
+                </FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select job type" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="full-time">Full Time</SelectItem>
+                    <SelectItem value="part-time">Part Time</SelectItem>
+                    <SelectItem value="internship">Contract</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="jobDescription"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-[#4b95bc]" />
+                  Job Description
+                </FormLabel>
+                <FormDescription>
+                  Provide a detailed description of the role, responsibilities, and requirements.
+                </FormDescription>
+                <FormControl>
+                  <textarea
+                    {...field}
+                    className="w-full h-64 p-3 rounded-md border border-gray-200 dark:border-gray-800 bg-transparent resize-none focus:outline-none focus:ring-2 focus:ring-[#4b95bc] focus:border-transparent"
+                    placeholder="Describe the job role, responsibilities, requirements..."
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button
+            type="submit"
+            className="w-full bg-[#4b95bc] hover:bg-[#3a7494] text-white"
+          >
+            Post Job
+          </Button>
+        </form>
+      </Form>
+    </CardContent>
+  </Card>
+  </div>
   );
   
 }

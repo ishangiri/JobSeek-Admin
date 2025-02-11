@@ -1,5 +1,5 @@
 import React from 'react'
-import CompanyProfile from '../components/ProfileUi'
+import CompanyProfile from '../components/CompanyProfile.jsx'
 const Profile = () => {
   return (
     <div>

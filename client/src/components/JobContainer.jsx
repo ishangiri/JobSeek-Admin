@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react'
 import { useDashboardContext } from '../pages/DashboardLayout';
 import { BsCursorFill } from "react-icons/bs";
-import { useAllJobsCOntext } from '../pages/AllJobs';
+import { useAllJobsContext } from '../pages/AllJobs';
 import { Button } from "@/components/ui/button"
 import { Link } from 'react-router-dom';
 import fetchData from '../utils/fetchUtil';
@@ -12,8 +12,8 @@ import { useState } from 'react';
 const JobContainer = () => {
 
   const {isDarkTheme} = useDashboardContext();
-  const {data} = useAllJobsCOntext();
-  const {jobs} =  data;
+  const {filteredJobs : jobs} = useAllJobsContext();
+
   const [allJobs, setJobs] = useState(jobs || []);
 
   

@@ -104,7 +104,7 @@ const onSubmit = async(data) => {
 return (
   <div
     style={{ backgroundColor: isDarkTheme ? "#4D4D4D" : "white" }}
-    className="border-none p-6 sm:p-10 lg:p-16 rounded-lg"
+    className="border-none  p-6 sm:p-10 lg:p-16 rounded-lg"
   >
     <div className="flex justify-center">
       <p className="mb-6 text-lg sm:text-xl lg:text-2xl font-extrabold">Post Job</p>

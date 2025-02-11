@@ -38,6 +38,8 @@ const CompanyProfile = () => {
   const { user } = useDashboardContext();
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
+  const {isDarkTheme} = useDashboardContext();
+
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -47,6 +49,7 @@ const CompanyProfile = () => {
     },
   });
 
+  //getting the user information
   useEffect(() => {
     if (user?.company || user?.location) {
       form.reset({
@@ -57,6 +60,8 @@ const CompanyProfile = () => {
     }
   }, [user, form]);
 
+
+  //calling api to update the user data
   const onSubmit = async (data) => {
     console.log(data);
     try{
@@ -84,7 +89,7 @@ const CompanyProfile = () => {
   }
 
   return (
-    <Card className="w-full max-w-xl mx-auto">
+    <Card style = {{backgroundColor : isDarkTheme? "#3F3F3F" : "#EEEE", color : isDarkTheme? "white" : "black"}} className="w-full max-w-xl mx-auto">
       <CardHeader className="space-y-1">
         <div className="flex items-center justify-between">
           <CardTitle className="text-2xl font-bold">Company Profile</CardTitle>
@@ -126,8 +131,8 @@ const CompanyProfile = () => {
 
           {/* Email display */}
           <div className="text-center">
-            <p className="text-sm text-gray-500">Email</p>
-            <p className="font-medium">{user?.email}</p>
+            <p className="text-sm">Email</p>
+            <p className="font-light">{user?.email}</p>
           </div>
 
           <Separator className="my-4" />
@@ -145,7 +150,7 @@ const CompanyProfile = () => {
                       {isEditing ? (
                         <Input {...field} className="w-full" />
                       ) : (
-                        <p className="text-gray-700 pt-2">{field.value}</p>
+                        <p className="font-bold pt-2">{field.value}</p>
                       )}
                     </FormControl>
                     <FormMessage />
@@ -163,7 +168,7 @@ const CompanyProfile = () => {
                       {isEditing ? (
                         <Input {...field} className="w-full" />
                       ) : (
-                        <p className="text-gray-700 pt-2">{field.value}</p>
+                        <p className="font-bold  pt-2">{field.value}</p>
                       )}
                     </FormControl>
                     <FormMessage />
