@@ -10,7 +10,7 @@ const links = [
     { text: 'add job', path: '.', icon: <FaWpforms /> },
     { text: 'all jobs', path: 'all-jobs', icon: <MdQueryStats /> },
     { text: 'profile', path: 'profile', icon: <ImProfile /> },
-    { text: 'admin', path: 'admin', icon: <MdAdminPanelSettings /> },
+    { text: 'history', path: 'history', icon: <MdAdminPanelSettings /> },
   ];
 
   export default links;

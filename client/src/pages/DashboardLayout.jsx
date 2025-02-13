@@ -15,6 +15,7 @@ const DashboardLayout = () => {
   const [name, setName] = useState(null);
   const [location, setLocation] = useState(null);
   const [email, setEmail] = useState (null);
+  const [avatar, setAvatar] = useState(null);
 
   
   useEffect(() => {
@@ -25,9 +26,11 @@ const DashboardLayout = () => {
          const fetchedName = response.data.userWIthoutpass.company;
          const location = response.data.userWIthoutpass.location;
          const email = response.data.userWIthoutpass.email;
+         const avatar = response.data.userWIthoutpass.avatar;
          setName(fetchedName);
          setLocation(location);
          setEmail(email);
+         setAvatar(avatar)
       } catch (error) {
         return error
       }  
@@ -40,7 +43,7 @@ const DashboardLayout = () => {
 
 
 
-  const user = {company : name, location : location, email : email};
+  const user = {company : name, location : location, email : email, avatar : avatar};
 
  
   const [showSideBar, setShowSideBar] = useState(false);

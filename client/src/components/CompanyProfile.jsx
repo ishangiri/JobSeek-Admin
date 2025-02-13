@@ -32,14 +32,27 @@ const formSchema = z.object({
   location: z.string().min(2, {
     message: "Location must be at least 2 characters.",
   }),
-});
+  avatar : z.any().optional()
+  })
+
 
 const CompanyProfile = () => {
-  const { user } = useDashboardContext();
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
-  const {isDarkTheme} = useDashboardContext();
+  const [imagePreview, setImagePreview] = useState (null);
+  const [image, setImage] = useState (null);
+  const [loading, setLoading] = useState (false);
 
+  const {isDarkTheme, user} = useDashboardContext();
+  
+
+  //uploading image
+  const onImageChange = (e) => {
+    if (e.target.files && e.target.files[0]){
+      setImage(e.target.files[0]);
+      setImagePreview(URL.createObjectURL(e.target.files[0]))
+    }
+  }
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -60,19 +73,41 @@ const CompanyProfile = () => {
     }
   }, [user, form]);
 
+  const uploadAvatar = async () => {
+    if (!image) {
+      toast.error("Please select an image before uploading.");
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append("avatar", image);
+  
+    try {
+      setLoading(true);
+      await fetchData.patch("users/updateAvatar", formData);
+      toast.success("Avatar updated successfully!");
+      // Optionally update the user's profile image immediately after upload
+      setImagePreview(URL.createObjectURL(image));
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.response?.data?.message || "Failed to upload avatar.");
+    }
+    setLoading(false);
+  };
+  
 
-  //calling api to update the user data
+  //calling api to update the user's company and location
   const onSubmit = async (data) => {
-    console.log(data);
+      
     try{
+      console.log(data);
+      
       await fetchData.patch("users/updateUser", data);
       toast.success("Company updated successfully");
     } catch(err) {
          console.log(err);
          toast.error(err?.response.data.message)
-         
     }
-   
     setIsEditing(false);
   };
 
@@ -108,22 +143,23 @@ const CompanyProfile = () => {
           <div className="relative">
             <div className="w-32 h-32 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border-4 border-white shadow-lg">
               <img 
-                src="/api/placeholder/128/128" 
+                src={imagePreview ? imagePreview : user?.avatar} 
                 alt="Company avatar" 
                 className="w-full h-full object-cover" 
               />
             </div>
             {isEditing && (
               <label 
-                htmlFor="avatar-upload" 
+                htmlFor="avatar" 
                 className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg cursor-pointer hover:bg-gray-50 border border-gray-200"
               >
                 <Camera className="w-5 h-5 text-gray-600" />
                 <input
-                  id="avatar-upload"
+                  id="avatar"
                   type="file"
                   className="hidden"
                   accept="image/*"
+                  onChange={onImageChange}
                 />
               </label>
             )}
@@ -134,6 +170,12 @@ const CompanyProfile = () => {
             <p className="text-sm">Email</p>
             <p className="font-light">{user?.email}</p>
           </div>
+        {isEditing && 
+            <Button onClick = {uploadAvatar}>
+            {loading ? "Uploading Avatar..." : "Upload Avatar"}
+          </Button>
+          }
+        
 
           <Separator className="my-4" />
 
@@ -177,7 +219,7 @@ const CompanyProfile = () => {
               />
 
               {isEditing && (
-                <div className="flex gap-4">
+                <div className="flex gap-4 text-black">
                   <Button 
                     type="button" 
                     variant="outline" 
@@ -185,6 +227,8 @@ const CompanyProfile = () => {
                     onClick={() => {
                       setIsEditing(false);
                       form.reset();
+                      setImagePreview(null);
+                      setImage(null);
                     }}
                   >
                     Cancel

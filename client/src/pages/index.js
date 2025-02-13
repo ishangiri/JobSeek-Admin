@@ -9,6 +9,6 @@ export {default as HomeLayout} from './HomeLayout';
 export {default as Error} from './Error';
 export {default as EditJob} from './EditJob';
 export {default as AllJobs} from './AllJobs';
-export {default as Admin }  from './Admin';
+export {default as History }  from './History';
 export {default as OTP} from './Otp';
 

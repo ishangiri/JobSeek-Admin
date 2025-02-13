@@ -20,7 +20,6 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import {
-  Search,
   RefreshCw,
   Briefcase,
   Clock,
@@ -182,7 +181,7 @@ const SearchContainer = ({ onSubmit}) => {
           <Separator className="my-6" />
 
           <div className="flex gap-4 justify-end">
-            <Button type="button" variant="outline" onClick={handleReset} className="w-32 gap-2" disabled={!isFormDirty}>
+            <Button type="button" variant="outline" onClick={handleReset} className="w-32 gap-2 text-black" disabled={!isFormDirty}>
               <RefreshCw className="h-4 w-4" />
               Reset
             </Button>

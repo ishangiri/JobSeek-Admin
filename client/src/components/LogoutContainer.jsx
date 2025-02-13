@@ -11,6 +11,8 @@ const LogoutContainer = () => {
     const [showLogout, setShowLogout] = useState(false);
     const {user, logoutUser} = useDashboardContext();
 
+    const avatar =  user?.avatar;
+
   return (
     <Wrapper>
         <button type='button' 
@@ -18,8 +20,10 @@ const LogoutContainer = () => {
          onClick={() => {
             setShowLogout(!showLogout)
         }} >
-            <ImOffice />
-          {user?.company}
+          <div>
+            <img className='h-5 w-5' src={avatar} />
+          </div>
+          {user.company}
           <FaCaretDown />
         </button>
         <div className={showLogout ? 'dropdown show-dropdown' : 'dropdown'}>

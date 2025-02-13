@@ -4,8 +4,6 @@ import multer from "multer";
 const storage = multer.memoryStorage();
 
 const upload = multer({
-  storage,
-  limits: { fileSize: 40 * 1024 * 1024 }, // 40MB max file size
-});
+  storage});
 
 export default upload;
