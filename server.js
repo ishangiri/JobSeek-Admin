@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'development'){
 
   //test route
   app.get('/test', (req, res) => {
-    res.send('Hello World!');
+    res.send('Hello testing production world');
 });
 
 
