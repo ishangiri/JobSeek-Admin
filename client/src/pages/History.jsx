@@ -9,6 +9,9 @@ const History = () => {
     <div>
       Number of Applicants
     </div>
+    <div>
+      
+    </div>
     </div>
   )
 }

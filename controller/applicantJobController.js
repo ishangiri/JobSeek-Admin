@@ -2,8 +2,7 @@ import Job from '../models/JobModel.js' ;
 import { StatusCodes } from 'http-status-codes';
 import Applicant from '../models/ApplicantModel.js';
 import  s3  from '../utils/AWSconfig.js';
-import { PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -33,7 +32,7 @@ export const applyJob = async (req, res) => {
 
     // Check if the applicant has already applied
     const alreadyApplied = job.applicants.some(
-      (app) => app.applicantId.toString() === applicantId.toString()
+      (applicant) => app.applicantId.toString() === applicantId.toString()
     );
     if (alreadyApplied) {
       return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Already applied for this job" });
@@ -75,6 +74,7 @@ export const applyJob = async (req, res) => {
     await Promise.all([job.save(), applicant.save()]);
 
     res.status(StatusCodes.OK).json({ msg: "Applied for the job successfully" });
+
   } catch (error) {
     console.error("Application Error:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
