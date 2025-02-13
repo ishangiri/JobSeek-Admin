@@ -33,6 +33,7 @@ export const loginApplicant = async (req, res) => {
    httpOnly : true,
    expires : new Date(Date.now() + oneDay),
     secure : process.env.NODE_ENV === 'production',
+    sameSite : 'none',
   });
 
   res.status(StatusCodes.OK).json({msg : "login success"})
@@ -44,7 +45,7 @@ export const logOutApplicant = (req, res) => {
     httpOnly: true,
     expires: new Date(Date.now()), // Expire immediately
     secure: process.env.NODE_ENV === 'production', // For HTTPS
-    sameSite: 'strict', // Prevent CSRF
+    sameSite: 'none', // Prevent CSRF
     path: '/', // Clear cookie for all paths
   });
   res.status(StatusCodes.OK).json({ msg: "Logout success" });
