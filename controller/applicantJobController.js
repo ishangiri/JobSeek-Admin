@@ -94,13 +94,13 @@ export const applyJob = async (req, res) => {
 
     await sendEmail(
       applicant.email,
-      <>
+      <div>
       <h3>Job Application Received</h3>
       <p>
         You have successfully applied for the job <strong>{job.title}</strong> at <strong>{job.company}</strong>. 
         Please wait while we review your application. We will soon get back to you with the status of your application.
       </p>
-    </>
+    </div>
     
     );
 
