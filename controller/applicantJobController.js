@@ -91,17 +91,12 @@ export const applyJob = async (req, res) => {
     await Promise.all([job.save(), applicant.save()]);
 
     res.status(StatusCodes.OK).json({ msg: "Applied for the job successfully" });
-
+    const emailSubject = "Job Application Received";
+    const emailText = `You've successfully applied for "${job.title}" at ${job.company}. We'll review your application and update you shortly.`;
     await sendEmail(
       applicant.email,
-      <div>
-      <h3>Job Application Received</h3>
-      <p>
-        You have successfully applied for the job <strong>{job.title}</strong> at <strong>{job.company}</strong>. 
-        Please wait while we review your application. We will soon get back to you with the status of your application.
-      </p>
-    </div>
-    
+      emailSubject,
+      emailText
     );
 
   } catch (error) {
