@@ -4,7 +4,24 @@ import Applicant from '../models/ApplicantModel.js';
 import  s3  from '../utils/AWSconfig.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
+import { mailsender } from "../utils/mailSender.js";
+
+
 dotenv.config();
+
+//mailsender function
+const sendEmail = async (email, subject, text) => {
+  try {
+    await mailsender.sendMail({
+      from: process.env.MAIL_USER,
+      to: email,
+      subject,
+      text,
+    });
+  } catch (error) {
+    console.error("Email Error:", error);
+  }
+};
 
 // Apply for a job
 export const applyJob = async (req, res) => {
@@ -74,6 +91,18 @@ export const applyJob = async (req, res) => {
     await Promise.all([job.save(), applicant.save()]);
 
     res.status(StatusCodes.OK).json({ msg: "Applied for the job successfully" });
+
+    await sendEmail(
+      applicant.email,
+      <>
+      <h3>Job Application Received</h3>
+      <p>
+        You have successfully applied for the job <strong>{job.title}</strong> at <strong>{job.company}</strong>. 
+        Please wait while we review your application. We will soon get back to you with the status of your application.
+      </p>
+    </>
+    
+    );
 
   } catch (error) {
     console.error("Application Error:", error);
