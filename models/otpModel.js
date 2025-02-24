@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { mailsender } from "../utils/mailSender.js";
+import { mailSender } from "../utils/mailSender.js";
 
 const otpSchema = new mongoose.Schema({
     email : {
@@ -21,7 +21,7 @@ const otpSchema = new mongoose.Schema({
 //send verification email function
 async function sendVerificationEmail(email,otp){
     try{
-       const mailResponse = await mailsender(
+       const mailResponse = await mailSender(
         email,
         "Verification Email",
         `<h3>Please verify you email address with this OTP in order to register.</h3>
