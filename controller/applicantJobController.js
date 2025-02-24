@@ -49,7 +49,7 @@ export const applyJob = async (req, res) => {
 
     // Check if the applicant has already applied
     const alreadyApplied = job.applicants.some(
-      (applicant) => app.applicantId.toString() === applicantId.toString()
+      (app) => app.applicantId.toString() === applicantId.toString()
     );
     if (alreadyApplied) {
       return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Already applied for this job" });
