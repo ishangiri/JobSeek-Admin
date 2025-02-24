@@ -97,7 +97,7 @@ export const applyJob = async (req, res) => {
 
     res.status(StatusCodes.OK).json({ msg: "Applied for the job successfully" });
     const emailSubject = "Job Application Received";
-    const emailText = `You've successfully applied for "${job.title}" at ${job.company}. We'll review your application and update you shortly.`;
+    const emailText = `You've successfully applied for "${job.position}" at ${job.company}. We'll review your application and update you shortly.`;
   
     await sendApplicationEmail(applicant.email, job.title, job.company);
 
