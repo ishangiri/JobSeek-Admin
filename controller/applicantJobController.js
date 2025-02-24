@@ -96,10 +96,8 @@ export const applyJob = async (req, res) => {
     await Promise.all([job.save(), applicant.save()]);
 
     res.status(StatusCodes.OK).json({ msg: "Applied for the job successfully" });
-    const emailSubject = "Job Application Received";
-    const emailText = `You've successfully applied for "${job.position}" at ${job.company}. We'll review your application and update you shortly.`;
-  
-    await sendApplicationEmail(applicant.email, job.title, job.company);
+    
+    await sendApplicationEmail(applicant.email, job.position, job.company);
 
   } catch (error) {
     console.error("Application Error:", error);
