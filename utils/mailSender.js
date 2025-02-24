@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-export const mailsender = async (email, title, body) => {
+export const mailSender = async (email, title, body) => {
 
   try{
     let transporter = nodemailer.createTransport({

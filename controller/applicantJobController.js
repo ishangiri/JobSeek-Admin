@@ -4,7 +4,7 @@ import Applicant from '../models/ApplicantModel.js';
 import  s3  from '../utils/AWSconfig.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import dotenv from 'dotenv';
-import { mailsender } from "../utils/mailSender.js";
+import { mailSender } from "../utils/mailSender.js";
 
 
 dotenv.config();
@@ -12,7 +12,7 @@ dotenv.config();
 //mailsender function
 const sendEmail = async (email, subject, text) => {
   try {
-    await mailsender.sendMail({
+    await mailSender.sendMail({
       from: process.env.MAIL_USER,
       to: email,
       subject,
@@ -117,9 +117,6 @@ export const getOneJOb = async(req, res) => {
       }
       res.status(200).json({ job });
 }
-
-
-
 
 
 //get all the jobs posted by admins
