@@ -10,18 +10,23 @@ import { mailSender } from "../utils/mailSender.js";
 dotenv.config();
 
 //mailsender function
-const sendEmail = async (email, subject, text) => {
+async function sendApplicationEmail(email, jobTitle, companyName) {
   try {
-    await mailSender.sendMail({
-      from: process.env.MAIL_USER,
-      to: email,
-      subject,
-      text,
-    });
+    const mailResponse = await mailSender(
+      email,
+      "Job Application Received",
+      `<div>
+        <h3>Application Submitted Successfully</h3>
+        <p>You've applied for <strong>${jobTitle}</strong> at ${companyName}.</p>
+        <p>We'll review your application and update you soon.</p>
+        <p>Thank you for applying!</p>
+      </div>`
+    );
+    console.log("Confirmation email sent:", mailResponse);
   } catch (error) {
-    console.error("Email Error:", error);
+    console.error("Failed to send confirmation email:", error);
   }
-};
+}
 
 // Apply for a job
 export const applyJob = async (req, res) => {
@@ -93,11 +98,8 @@ export const applyJob = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: "Applied for the job successfully" });
     const emailSubject = "Job Application Received";
     const emailText = `You've successfully applied for "${job.title}" at ${job.company}. We'll review your application and update you shortly.`;
-    await sendEmail(
-      applicant.email,
-      emailSubject,
-      emailText
-    );
+  
+    await sendApplicationEmail(applicant.email, job.title, job.company);
 
   } catch (error) {
     console.error("Application Error:", error);
