@@ -2,6 +2,10 @@
 import Job from '../models/JobModel.js' ;
 import Applicant from '../models/ApplicantModel.js';
 import { StatusCodes } from 'http-status-codes';
+import { mailSender } from "../utils/mailSender.js";
+
+
+
 
 //getting all the jobs
 export const getAllJobs = async (req, res) => {
@@ -48,10 +52,29 @@ export const getAllJobs = async (req, res) => {
     }
 };
 
+async function sendApplicationEmail(email, text) {
+  try {
+    const mailResponse = await mailSender(
+      email,
+      "Job Application Update",
+      `<div>
+        <h3>Dear Applicant,</h3>
+           ${text}
+        <p>Thank you for applying!</p>
+      </div>`
+    );
+    console.log("Confirmation email sent:", mailResponse);
+  } catch (error) {
+    console.error("Failed to send confirmation email:", error);
+  }
+}
+
 //update status
 export const updateApplicantStatus = async (req, res) => {
   const { id, applicantId } = req.params;
   const { status } = req.body;
+  const text = status === 'interview' ? 'Your application has been accepted, You will soon be noticed for an interview' : 
+  'Sorry, your application has been rejected.';
 
   try {
          const applicant = await Applicant.findById(applicantId);
@@ -65,11 +88,36 @@ export const updateApplicantStatus = async (req, res) => {
             appliedJob.status = status;
             //save the applicant schema
             await applicant.save();
+            //send email regarding the status
+            await sendApplicationEmail(applicant.email, text)
             res.status(StatusCodes.OK).json({ msg: 'Applicant status updated' });
     }catch (error) {
       console.error('Error updating applicant status:', error);
       throw error;
 }
+}
+
+export const scheduleInterview = async (req,res) => {
+  const { id, applicantId } = req.params;
+  const { date, time } = req.body;
+  const text = `Congratulations!!!, Your interview has been scheduled on ${date} at ${time}. Please be prepared and email us if you have any enquiries.`;
+
+  try {
+  const  applicant = await Applicant.findById(applicantId);
+    const appliedJob =  applicant.appliedJobs.find(appliedJob => appliedJob.jobId.toString() === id);
+    if(!appliedJob){
+      throw new Error('Job not found');
+    }
+     
+    if(appliedJob.status === 'interview'){
+      sendInterviewEmail(applicant.email, text);
+      res.status(StatusCodes.OK).json({ msg: 'Interview scheduled' });
+    }
+
+  } catch (error) {
+    console.error('Error scheduling interview:', error);
+   }
+
 }
 
 

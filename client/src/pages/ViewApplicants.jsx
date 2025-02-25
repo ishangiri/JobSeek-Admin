@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import JobsApplicantsUI from '../components/JobApplicants';
 import fetchData from '../utils/fetchUtil';
 import { useLoaderData, useParams } from 'react-router-dom';
-import { use } from 'react';
+import { toast } from 'react-toastify';
 
 
 export const fetchJobs = async ({ request }) => {

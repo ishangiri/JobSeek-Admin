@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 
 dotenv.config();
+const api = "http://localhost:3000";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,7 +18,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: process.env.VITE_API_URL + "/api",
+        target:api + "/api",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
