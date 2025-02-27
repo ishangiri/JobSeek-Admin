@@ -21,7 +21,7 @@ import React from "react";
 
 
 
-const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange }) => {
+const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange, openCalendar }) => {
 
   const [date, setDate] = useState(new Date());
   const [time, setSelectedTime] = useState("");
@@ -53,13 +53,21 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange })
     }catch(error){
       toast.error(error?.response?.data?.msg);
     }
-
-   
   }
 
-  const openCalendar = async (applicantId, date, time) => {
-        toast.info(`Interview scheduled successfully  on ${date.toLocaleDateString()} at ${time}`);
-  };
+  const badgeColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "yellow";
+      case "interview":
+        return "green";
+      case "declined":
+        return "red";
+      default:
+        return "gray";
+    }
+  }
+
 
 
   return (
@@ -74,7 +82,7 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange })
       </TableHeader>
       <TableBody>
         {applicants.map((applicant) => (
-              
+        
               <TableRow key = {applicant.applicantId} className={styles.borderColor}>
             <TableCell>
               <div className="flex items-center gap-4">
@@ -91,7 +99,7 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange })
             <TableCell>
             <Dialog key={applicant.applicantId} asChild>
             <DialogTrigger asChild>
-              <Badge style={{cursor : "pointer"}}   onClick = {() => setSelectedApplicantId(applicant.applicantId)} variant={isDarkTheme ? "secondary" : "outline"}>
+              <Badge  style={{cursor : "pointer", backgroundColor : badgeColor(applicant.status), color : "black", font : "bold"}}   onClick = {() => setSelectedApplicantId(applicant.applicantId)} variant={isDarkTheme ? "secondary" : "outline"}>
                 {applicant.status}
               </Badge>
               </DialogTrigger>
@@ -142,17 +150,23 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange })
               >
                 {applicant.resume ? 'View Resume' : 'No Resume'}
               </Button>
+
+{applicant.interViewScheduled && (
+  <Badge variant={isDarkTheme ? "secondary" : "outline"}>Interview Scheduled for {applicant.interViewDate}</Badge>
+)}
 <Dialog>
   <DialogTrigger asChild>
-    {applicant.status === "interview" && (
-      <Button 
-        onClick={() => setSelectedApplicantId(applicant.applicantId)} 
-        variant={isDarkTheme ? "secondary" : "outline"} 
-        size="sm"
-      >
-        Schedule for Interview
-      </Button>
-    )}
+  {(applicant.status === "interview" && !applicant.interViewScheduled) && (
+  <Button 
+    onClick={() => setSelectedApplicantId(applicant.applicantId)} 
+    variant={isDarkTheme ? "secondary" : "outline"} 
+    size="sm"
+  >
+    Schedule for Interview
+  </Button>
+  
+)}
+
   </DialogTrigger>
   <DialogContent className="sm:max-w-[425px] bg-slate-600 text-white" >
     <DialogHeader>

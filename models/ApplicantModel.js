@@ -17,6 +17,8 @@ const ApplicantSchema = new mongoose.Schema({
                 enum : ['pending', 'declined', 'interview'],
                 default : 'pending'
             },
+            interViewScheduled : Boolean,
+            interViewDate : String,
         }
     ],
 })

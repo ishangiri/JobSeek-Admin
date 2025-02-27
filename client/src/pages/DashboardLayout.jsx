@@ -32,7 +32,8 @@ const DashboardLayout = () => {
          setEmail(email);
          setAvatar(avatar)
       } catch (error) {
-        return error
+        return navigate("/login");
+        console.log(error);    
       }  
     }
 

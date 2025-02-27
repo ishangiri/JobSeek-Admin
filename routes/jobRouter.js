@@ -11,7 +11,8 @@ import {
     updateJob,
     deleteJob,
     getAllApplicants,
-    updateApplicantStatus
+    updateApplicantStatus,
+    scheduleInterview
   } from '../controller/jobController.js';
 
 
@@ -20,6 +21,7 @@ import {
 router.route('/:id').get(validateIdParam, getJob).patch( validateJobInput , validateIdParam, updateJob).delete(validateIdParam, deleteJob);
 router.route('/applicants/:id').get(getAllApplicants);
 router.route('/applicant/:applicantId/job/:id').patch(validateIdParam, updateApplicantStatus);
+router.route('/applicant/:applicantId/schedule-interview/job/:id').post(validateIdParam, scheduleInterview);
 
 
 export default router;

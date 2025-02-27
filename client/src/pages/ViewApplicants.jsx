@@ -34,6 +34,8 @@ export const fetchJobs = async ({ request }) => {
       try {
         const { data } = await fetchData.get(`/jobs/applicants/${selectedJobId}`);
         setApplicants(data.applicants);
+        console.log(data.applicants);
+        
       } catch (error) {
         console.log(error);
       }
@@ -44,8 +46,10 @@ export const fetchJobs = async ({ request }) => {
 
   const handleStatusChange = async (applicantId, newStatus) => {
     try {
+      const id = selectedJobId;
+      
       // No need to set state here, use the function parameter directly
-      await fetchData.patch(`/jobs/applicant/${applicantId}/job/${selectedJobId}`, { status: newStatus });
+      await fetchData.patch(`/jobs/applicant/${applicantId}/job/${id}`, { status: newStatus });
       console.log(`Updated applicant ${applicantId} status to ${newStatus}`);
   
       // Update the local state to reflect the new status
@@ -58,6 +62,21 @@ export const fetchJobs = async ({ request }) => {
       console.log(error);
     }
   };
+
+  const scheduleInterview = async (applicantId, date, time) => {
+    try{
+      const formattedDate  = date.toLocaleDateString();
+      console.log(applicantId, formattedDate, time);
+      
+      await fetchData.post(`/jobs/applicant/${applicantId}/schedule-interview/job/${selectedJobId}`, {
+        date : formattedDate,
+        time
+    });
+        toast.success("Interview scheduled successfully");
+    }catch(error){
+      console.log(error); 
+    }
+  }
   
 
   return (
@@ -67,6 +86,7 @@ export const fetchJobs = async ({ request }) => {
         selectedJobId={selectedJobId} 
         setSelectedJobId={setSelectedJobId}
          handleStatusChange={handleStatusChange}
+         openCalendar={scheduleInterview}
          />
     </div>
   )

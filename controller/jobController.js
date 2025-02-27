@@ -39,7 +39,9 @@ export const getAllJobs = async (req, res) => {
       lastName: applicant.applicantId.lastName,
       location: applicant.applicantId.location,
       resume: applicant.resume,
-      status: appliedJOb ? appliedJOb.status : 'pending'
+      status: appliedJOb ? appliedJOb.status : 'pending',
+      interViewScheduled: appliedJOb ? appliedJOb.interViewScheduled : false,
+      interViewDate: appliedJOb ? appliedJOb.interViewDate : '',
     };
    });
     
@@ -60,6 +62,8 @@ async function sendApplicationEmail(email, text) {
       `<div>
         <h3>Dear Applicant,</h3>
            ${text}
+           <p>If you have any further enquiries, please contact us.</p>
+           <br>
         <p>Thank you for applying!</p>
       </div>`
     );
@@ -73,14 +77,17 @@ async function sendApplicationEmail(email, text) {
 export const updateApplicantStatus = async (req, res) => {
   const { id, applicantId } = req.params;
   const { status } = req.body;
-  const text = status === 'interview' ? 'Your application has been accepted, You will soon be noticed for an interview' : 
-  'Sorry, your application has been rejected.';
 
   try {
          const applicant = await Applicant.findById(applicantId);
 
         //check if the applicant exists
          const appliedJob =  applicant.appliedJobs.find(appliedJob => appliedJob.jobId.toString() === id);
+         //fetch the job
+         const job = await Job.findById(id);
+         
+         const text = status === 'interview' ? 'Your application has been accepted for,' + job.position + ' at ' + job.company + ' You will soon be noticed for an interview' : 
+         'Sorry, your application has been rejected for the job' + job.position + ' at ' + job.company + '.' + ' Thank you for applying';
            if(!appliedJob){
              throw new Error('Job not found');
            }
@@ -97,20 +104,28 @@ export const updateApplicantStatus = async (req, res) => {
 }
 }
 
+//shedule interview api
 export const scheduleInterview = async (req,res) => {
-  const { id, applicantId } = req.params;
+  const {  id, applicantId } = req.params;
   const { date, time } = req.body;
-  const text = `Congratulations!!!, Your interview has been scheduled on ${date} at ${time}. Please be prepared and email us if you have any enquiries.`;
-
+  
+  
   try {
   const  applicant = await Applicant.findById(applicantId);
     const appliedJob =  applicant.appliedJobs.find(appliedJob => appliedJob.jobId.toString() === id);
+    const job = await Job.findById(id);
+    
     if(!appliedJob){
       throw new Error('Job not found');
     }
-     
+    const text = ` Congratulations !!!, 
+                   Your interview has been scheduled for ${date} at ${time} for the job ${job.position} at ${job.company}, if you
+                    have any further enquiries, please contact us.`;
     if(appliedJob.status === 'interview'){
-      sendInterviewEmail(applicant.email, text);
+       appliedJob.interViewDate = date;
+       appliedJob.interViewScheduled = true;
+       await applicant.save();
+      sendApplicationEmail(applicant.email, text);
       res.status(StatusCodes.OK).json({ msg: 'Interview scheduled' });
     }
 
