@@ -6,7 +6,7 @@ import JobsList from  "../components/ViewApplicants/JobList";
 import ApplicantsList from "../components/ViewApplicants/ApplicantsList";
 import { handle } from 'express/lib/router';
 
-const JobsApplicantsUI = ({ jobs, applicants, selectedJobId, setSelectedJobId, handleStatusChange }) => {
+const JobsApplicantsUI = ({ jobs, applicants, selectedJobId, setSelectedJobId, handleStatusChange, openCalendar}) => {
   const { isDarkTheme } = useDashboardContext();
 
   const openResume = (resume) => {
@@ -59,6 +59,7 @@ const JobsApplicantsUI = ({ jobs, applicants, selectedJobId, setSelectedJobId, h
           isDarkTheme={isDarkTheme}
           openResume={openResume}
           onStatusChange={handleStatusChange}
+          openCalendar={openCalendar}
         />
       </div>
     </div>

@@ -16,8 +16,16 @@ import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from ".
 import { Label } from "@/components/ui/label"
 import { toast } from "react-toastify";
 import { useState } from "react";
+import {Calendar} from "@/components/ui/calendar";
+import React from "react";
 
-const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange }) => {
+
+
+const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange, openCalendar }) => {
+
+  const [date, setDate] = useState(new Date());
+  const [time, setSelectedTime] = useState("");
+
   const styles = {
     textColor: isDarkTheme ? "text-gray-200" : "text-gray-900",
     borderColor: isDarkTheme ? "border-gray-600" : "border-gray-200",
@@ -45,9 +53,22 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange })
     }catch(error){
       toast.error(error?.response?.data?.msg);
     }
-
-   
   }
+
+  const badgeColor = (status) => {
+    switch (status) {
+      case "pending":
+        return "yellow";
+      case "interview":
+        return "green";
+      case "declined":
+        return "red";
+      default:
+        return "gray";
+    }
+  }
+
+
 
   return (
     <Table>
@@ -61,9 +82,8 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange })
       </TableHeader>
       <TableBody>
         {applicants.map((applicant) => (
-              <Dialog key={applicant.applicantId} asChild>
-              <DialogTrigger asChild>
-              <TableRow key={applicant.applicantId} style = {{cursor : "pointer"}}  className={styles.borderColor} onClick = {() => setSelectedApplicantId(applicant.applicantId)}>
+        
+              <TableRow key = {applicant.applicantId} className={styles.borderColor}>
             <TableCell>
               <div className="flex items-center gap-4">
                 <Avatar className="w-10 h-10">
@@ -77,23 +97,11 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange })
               </div>
             </TableCell>
             <TableCell>
-              <Badge variant={isDarkTheme ? "secondary" : "outline"}>
+            <Dialog key={applicant.applicantId} asChild>
+            <DialogTrigger asChild>
+              <Badge  style={{cursor : "pointer", backgroundColor : badgeColor(applicant.status), color : "black", font : "bold"}}   onClick = {() => setSelectedApplicantId(applicant.applicantId)} variant={isDarkTheme ? "secondary" : "outline"}>
                 {applicant.status}
               </Badge>
-            </TableCell>
-            <TableCell className={styles.textColor}>{applicant.location || 'N/A'}</TableCell>
-            <TableCell>
-              <Button 
-                variant={isDarkTheme ? "secondary" : "outline"} 
-                size="sm"
-                onClick={() => openResume(applicant.resume)}
-              >
-                {applicant.resume ? 'View Resume' : 'No Resume'}
-              </Button>
-            </TableCell>
-        
-        
-          </TableRow>
               </DialogTrigger>
               <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -131,6 +139,88 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange })
                 </DialogFooter>
               </DialogContent>
             </Dialog>
+            </TableCell>
+            <TableCell className={styles.textColor}>{applicant.location || 'N/A'}</TableCell>
+            <TableCell>
+              <div className = "flex items-center gap-4">
+              <Button 
+                variant={isDarkTheme ? "secondary" : "outline"} 
+                size="sm"
+                onClick={() => openResume(applicant.resume)}
+              >
+                {applicant.resume ? 'View Resume' : 'No Resume'}
+              </Button>
+
+{applicant.interViewScheduled && (
+  <Badge variant={isDarkTheme ? "secondary" : "outline"}>Interview Scheduled for {applicant.interViewDate}</Badge>
+)}
+<Dialog>
+  <DialogTrigger asChild>
+  {(applicant.status === "interview" && !applicant.interViewScheduled) && (
+  <Button 
+    onClick={() => setSelectedApplicantId(applicant.applicantId)} 
+    variant={isDarkTheme ? "secondary" : "outline"} 
+    size="sm"
+  >
+    Schedule for Interview
+  </Button>
+  
+)}
+
+  </DialogTrigger>
+  <DialogContent className="sm:max-w-[425px] bg-slate-600 text-white" >
+    <DialogHeader>
+      <DialogTitle className="text-slate-950">Schedule Interview</DialogTitle>
+      <DialogDescription>
+        Select a date and time for the interview
+      </DialogDescription>
+    </DialogHeader>
+    <div className="py-4">
+      <Calendar
+        mode="single"
+        selected={date}
+        onSelect={setDate}
+        className="rounded-md border"
+      />
+      <div className="mt-4">
+        <Label htmlFor="time" className="text-slate-950">Time</Label>
+        <Select value={time} onValueChange={setSelectedTime}>
+          <SelectTrigger id="time" className="w-full text-slate-950 mt-2">
+            <SelectValue placeholder="Select time" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="9:00">9:00 AM</SelectItem>
+            <SelectItem value="10:00">10:00 AM</SelectItem>
+            <SelectItem value="11:00">11:00 AM</SelectItem>
+            <SelectItem value="13:00">1:00 PM</SelectItem>
+            <SelectItem value="14:00">2:00 PM</SelectItem>
+            <SelectItem value="15:00">3:00 PM</SelectItem>
+            <SelectItem value="16:00">4:00 PM</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+    <DialogFooter>
+      <DialogClose asChild>
+        <Button 
+          type="button" 
+          onClick={() => {
+            openCalendar(selectedApplicantId, date, time);
+          }}
+        >
+          Schedule
+        </Button>
+      </DialogClose>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+              
+              </div>
+             
+            </TableCell>
+        
+        
+          </TableRow>
        
         ))}
       </TableBody>

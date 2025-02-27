@@ -2,7 +2,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import ApplicantCard from "./ApplicantCard";
 import ApplicantTable from "./ApplicantTable";
 
-const ApplicantsList = ({ applicants, selectedJobId, selectedJob, isDarkTheme, openResume, onStatusChange}) => {
+const ApplicantsList = ({ applicants, selectedJobId, isDarkTheme, openResume, onStatusChange, openCalendar}) => {
   const styles = {
     secondaryTextColor: isDarkTheme ? "text-gray-300" : "text-gray-600",
   };
@@ -35,6 +35,7 @@ const ApplicantsList = ({ applicants, selectedJobId, selectedJob, isDarkTheme, o
               isDarkTheme={isDarkTheme}
               openResume={openResume}
               onStatusChange={onStatusChange}
+              openCalendar={openCalendar}
             />
           </div>
         </div>
