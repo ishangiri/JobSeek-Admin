@@ -6,6 +6,8 @@ const ApplicantSchema = new mongoose.Schema({
     password : String,
     lastName : String,
     location : String,
+    avatar : String,
+    avatarKey : String,
     appliedJobs : [
         {
             jobId : {

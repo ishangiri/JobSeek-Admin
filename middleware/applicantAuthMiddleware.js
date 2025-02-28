@@ -26,7 +26,6 @@ export const validateApplicantLogin = validationError([
 export const validateApplicantUpdate = validationError([
     body('name').notEmpty().withMessage("name is required"),
     body('location').notEmpty().withMessage("location is required"),
-    body('lastName').notEmpty().withMessage("lastName is required"),
 ])          
 
 

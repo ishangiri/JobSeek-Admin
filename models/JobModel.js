@@ -20,11 +20,7 @@ const JobSchema = new mongoose.Schema({
         ref : 'User',
     },
     applicants : [{applicantId :  
-                     {
-                       type : mongoose.Types.ObjectId,ref : 'Applicant'
-                                                                     },
-                                                                     resume : String,
-                                                                                     },
+        { type : mongoose.Types.ObjectId,ref : 'Applicant'},resume : String,},
 ]
 
 }, {timestamps : true})

@@ -1,11 +1,13 @@
 import { StatusCodes } from "http-status-codes";
 import User from "../models/userModel.js";
+import Applicant from "../models/ApplicantModel.js";
 import Job from '../models/JobModel.js'
 import dotenv from "dotenv";
 import s3 from "../utils/AWSconfig.js";
 import path from 'path';
 import { nanoid } from "nanoid";
 import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+
 
 dotenv.config();
 
@@ -47,7 +49,7 @@ export const updateUser = async(req,res) => {
     }
 }
 
-
+//update the user avatar that is the company avatar
 export const updateAvatar = async (req, res) => {
     try {
       const { file } = req;
@@ -68,7 +70,7 @@ export const updateAvatar = async (req, res) => {
         // Corrected 'Key' in uploadParams
         const uploadParams = {
           Bucket: process.env.AWS_BUCKET_NAME2,
-          Key: `avatars/${fileName}`, // Capital 'K' here
+          Key: `avatars/${fileName}`,
           Body: file.buffer,
           ContentType: file.mimetype,
           ACL: 'public-read',
@@ -82,6 +84,75 @@ export const updateAvatar = async (req, res) => {
   
       // Update user with new avatar and avatarKey
       const updatedUser = await User.findByIdAndUpdate(
+        userId,
+        { avatar, avatarKey },
+        { new: true }
+      );
+  
+      // Delete old avatar if a new one was uploaded and old exists
+      if (file && userDoc.avatarKey) {
+        const deleteParams = {
+          Bucket: process.env.AWS_BUCKET_NAME2,
+          Key: userDoc.avatarKey,
+        };
+        await s3.send(new DeleteObjectCommand(deleteParams));
+      }
+  
+      res.status(StatusCodes.OK).json({ msg: "Avatar updated successfully" });
+    } catch (err) {
+      console.error("Error updating avatar:", err);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: err.message });
+    }
+  };
+
+
+//update the admin user profile
+export const updatApplicant = async(req,res) => {
+  try{
+  const {name, location} = req.body;
+  await Applicant.findByIdAndUpdate(req.userData.user, {name, location}); 
+  res.status(StatusCodes.OK).json({msg : "user updated successfully"})
+}catch(err){
+      console.log("Error updating user", err);
+      res.status(StatusCodes.BAD_REQUEST).json({err});
+  }
+}
+
+  //update the appplicant avatar 
+  export const updateApplicantAvatar = async (req, res) => {
+    try {
+      const { file } = req;
+      const userId = req.userData.applicant;
+  
+      // Fetch the user document to get current avatarKey
+      const userDoc = await Applicant.findById(userId);
+      if (!userDoc) {
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: "User not found" });
+      }
+  
+      let avatar;
+      let avatarKey;
+  
+      if (file) {
+        const fileName = generateUniqueFileName(file.originalname);
+  
+        // Corrected 'Key' in uploadParams
+        const uploadParams = {
+          Bucket: process.env.AWS_BUCKET_NAME2,
+          Key: `applicantAvatars/${fileName}`, 
+          Body: file.buffer,
+          ContentType: file.mimetype,
+          ACL: 'public-read',
+        };
+  
+        await s3.send(new PutObjectCommand(uploadParams));
+  
+        avatar = `https://${process.env.AWS_BUCKET_NAME2}.s3.${process.env.AWS_REGION}.amazonaws.com/applicantAvatars/${fileName}`;
+        avatarKey = `applicantAvatars/${fileName}`;
+      }
+  
+      // Update user with new avatar and avatarKey
+      const updatedUser = await Applicant.findByIdAndUpdate(
         userId,
         { avatar, avatarKey },
         { new: true }
