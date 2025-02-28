@@ -19,6 +19,8 @@ const ApplicantsList = ({ applicants, selectedJobId, isDarkTheme, openResume, on
                 applicant={applicant}
                 isDarkTheme={isDarkTheme}
                 openResume={openResume}
+                onStatusChange={onStatusChange}
+                openCalendar={openCalendar}
               />
             ))}
             {applicants.length === 0 && (

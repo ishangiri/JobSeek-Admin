@@ -48,7 +48,7 @@ if (process.env.NODE_ENV === 'development'){
 
 app.use('/applicants/jobs', nonAuthenticatedRouter);
 
-//routes for applicants coming from applicantRouter
+//routes for applicants coming from  
 app.use('/api/applicants', authenticateApplicant, applicantRouter);
 
 //routes for jobs coming from jobRouter
