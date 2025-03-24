@@ -20,7 +20,7 @@ export const getAllJobs = async (req, res) => {
         const job = await Job.findById(id).populate({
             path: 'applicants.applicantId',
             model: 'Applicant',
-            select: 'name email lastName location resume appliedJobs'
+            select: 'name email lastName location resume appliedJobs avatar'
         });
 
         if (!job) {
@@ -39,6 +39,7 @@ export const getAllJobs = async (req, res) => {
       lastName: applicant.applicantId.lastName,
       location: applicant.applicantId.location,
       resume: applicant.resume,
+      avatar: applicant.applicantId.avatar,
       status: appliedJOb ? appliedJOb.status : 'pending',
       interViewScheduled: appliedJOb ? appliedJOb.interViewScheduled : false,
       interViewDate: appliedJOb ? appliedJOb.interViewDate : '',
