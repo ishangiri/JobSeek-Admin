@@ -107,10 +107,10 @@ export const updateAvatar = async (req, res) => {
 
 
 //update the admin user profile
-export const updatApplicant = async(req,res) => {
+export const updateApplicant = async(req,res) => {
   try{
   const {name, location} = req.body;
-  await Applicant.findByIdAndUpdate(req.userData.user, {name, location}); 
+  await Applicant.findByIdAndUpdate(req.userData.applicant, {name, location}); 
   res.status(StatusCodes.OK).json({msg : "user updated successfully"})
 }catch(err){
       console.log("Error updating user", err);

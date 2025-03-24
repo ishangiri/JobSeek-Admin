@@ -32,8 +32,9 @@ export const loginApplicant = async (req, res) => {
   res.cookie('token', token, {
    httpOnly : true,
    expires : new Date(Date.now() + oneDay),
-    secure : process.env.NODE_ENV === 'production',
+    // secure : process.env.NODE_ENV === 'production',
     sameSite : 'none',
+    secure : true,
     partitioned : true,
   });
 
@@ -46,7 +47,8 @@ export const logOutApplicant = (req, res) => {
   res.cookie('token', 'logout', {
     httpOnly: true,
     expires: new Date(Date.now()), // Expire immediately
-    secure: process.env.NODE_ENV === 'production', // For HTTPS
+    // secure: process.env.NODE_ENV === 'production', // For HTTPS
+    secure : true,
     sameSite: 'none',
     partitioned : true,
     path: '/', // Clear cookie for all paths

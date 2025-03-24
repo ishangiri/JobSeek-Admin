@@ -9,7 +9,6 @@ import {
   AddJob,
   AllJobs,
   Profile,
-  History,
   OTP,
   EditJob,
   ViewApplicants
@@ -77,10 +76,7 @@ const router =  createBrowserRouter([
             path: 'profile',
             element: <Profile/>
           },
-          {
-            path: 'history',
-            element: <History/>
-          },
+     
           {
             path : 'edit-job/:id',
             element : <EditJob />,

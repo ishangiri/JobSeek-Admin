@@ -124,3 +124,77 @@ export const getAllJobs = async (req, res) => {
   const jobs = await Job.find();
   res.status(StatusCodes.OK).json({jobs});
 }
+
+
+//get applied Jobs
+export const getAppliedJobs = async (req, res) => {
+  try {
+    const applicantId = req.userData.applicant;
+
+    // Find applicant and populate job details along with createdBy avatar
+    const applicant = await Applicant.findById(applicantId)
+      .populate({
+        path: "appliedJobs.jobId",
+        select: "company position jobType jobLocation salary jobDescription createdBy",
+        populate: {
+          path: "createdBy",
+          select: "avatar company", // Fetch avatar and company from User
+        },
+      })
+      .lean();
+
+    if (!applicant) {
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: "Applicant not found" });
+    }
+
+    // Transform the applied jobs data
+    const enhancedAppliedJobs = applicant.appliedJobs.map((job) => {
+      if (!job.jobId || typeof job.jobId === "string") {
+        return {
+          _id: job._id,
+          jobId: job.jobId || "deleted",
+          status: job.status,
+          interViewScheduled: job.interViewScheduled || false,
+          interViewDate: job.interViewDate || null,
+          jobDetails: {
+            position: "Position no longer available",
+            company: "Company unknown",
+            jobType: "Unknown",
+            jobLocation: "Unknown",
+            salary: "Not available",
+            jobDescription: "Job no longer exists",
+            avatar: null, // No avatar for deleted jobs
+          },
+        };
+      }
+
+      return {
+        _id: job._id,
+        jobId: job.jobId._id,
+        status: job.status,
+        interViewScheduled: job.interViewScheduled || false,
+        interViewDate: job.interViewDate || null,
+        jobDetails: {
+          position: job.jobId.position || "Unknown Position",
+          company: job.jobId.company || "Unknown Company",
+          jobType: job.jobId.jobType || "Not specified",
+          jobLocation: job.jobId.jobLocation || "Not specified",
+          salary: job.jobId.salary || "Not specified",
+          jobDescription: job.jobId.jobDescription || "No description available",
+          avatar: job.jobId.createdBy?.avatar || null, // Include avatar from createdBy
+        },
+      };
+    });
+
+    return res.status(StatusCodes.OK).json({
+      appliedJobs: enhancedAppliedJobs,
+      count: enhancedAppliedJobs.length,
+    });
+  } catch (error) {
+    console.error("Error fetching applied jobs:", error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      msg: "Error getting applied jobs",
+      error: error.message,
+    });
+  }
+};

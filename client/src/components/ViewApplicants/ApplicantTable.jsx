@@ -82,13 +82,15 @@ const ApplicantTable = ({ applicants, isDarkTheme, openResume, onStatusChange, o
       </TableHeader>
       <TableBody>
         {applicants.map((applicant) => (
+         
+          
         
-              <TableRow key = {applicant.applicantId} className={styles.borderColor}>
+            <TableRow key = {applicant.applicantId} className={styles.borderColor}>
             <TableCell>
               <div className="flex items-center gap-4">
                 <Avatar className="w-10 h-10">
-                  <AvatarImage src={`https://i.pravatar.cc/150?u=${applicant.email}`} />
-                  <AvatarFallback>{applicant.name}</AvatarFallback>
+                  <AvatarImage src={applicant.avatar} />
+                  <AvatarFallback>{applicant.avatar}</AvatarFallback>
                 </Avatar>
                 <div>
                   <p className={`font-medium ${styles.textColor}`}>{applicant.name}</p>
