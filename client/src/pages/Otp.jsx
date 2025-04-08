@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, Form, useNavigate, useActionData, useNavigation } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
-import {FormInput, Logo} from '../components'
+import { Logo} from '../components'
 import fetchData from '../utils/fetchUtil';
 import { toast } from "react-toastify";
 import OTPInput from 'react-otp-input';
@@ -69,7 +69,7 @@ const OTP = () => {
           inputStyle="otp-input"
           
         />
-          <input type="hidden" name="otp" value={otpState} />
+          <input type="hidden" name="otp" value={otpState} className='text-black' />
    {Object.entries(registrationData || {}).map(([key, value]) => (
           <input key={key} type="hidden" name={key} value={value} />
         ))}
