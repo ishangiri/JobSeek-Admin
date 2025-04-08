@@ -19,7 +19,6 @@ const NavBar = () => {
                 <FaAlignLeft />
             </button>
             <div>
-                <Logo />
                 <h4 className='logo-text text-[#4b95bc] font-extrabold'>Dashboard</h4>
             </div>
             <div className="btn-container">

@@ -5,7 +5,9 @@ import dotenv from "dotenv";
 
 
 dotenv.config();
-const api = "http://localhost:3000";
+const VITE_API_URL = process.env.VITE_API_URL ;
+
+const api = VITE_API_URL;
 
 // https://vitejs.dev/config/
 export default defineConfig({

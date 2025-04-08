@@ -1,4 +1,4 @@
-import React, { act, useEffect } from 'react'
+import React, {  useEffect } from 'react'
 import { Link, Form, useNavigate, useNavigation, useActionData } from 'react-router-dom'
 import Wrapper from '../assets/wrappers/RegisterAndLoginPage';
 import {FormInput, Logo} from '../components'
