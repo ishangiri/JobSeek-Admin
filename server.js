@@ -6,10 +6,22 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 
-const app = express();
+const allowedOrigins = [
+  'http://localhost:3001',
+  'https://mern-real-zeta.vercel.app/'
+];
+
 app.use(cors({
-  origin: "http://localhost:3001",
-  credentials : true,
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
 }));
 
 
