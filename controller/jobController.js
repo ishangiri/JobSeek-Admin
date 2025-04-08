@@ -3,6 +3,7 @@ import Job from '../models/JobModel.js' ;
 import Applicant from '../models/ApplicantModel.js';
 import { StatusCodes } from 'http-status-codes';
 import { mailSender } from "../utils/mailSender.js";
+import mongoose from 'mongoose';
 
 
 
@@ -171,13 +172,51 @@ export const scheduleInterview = async (req,res) => {
     res.status(200).json({ job: updatedJob });
   };
   
-  //deleting the job with the specific id
+
+  //delete job api
   export const deleteJob = async (req, res) => {
     const { id } = req.params;
-    const removedJob = await Job.findByIdAndDelete(id);
-    if (!removedJob) {
-      return res.status(404).json({ msg: `no job with id ${id}` });
+  
+    try {
+      // Start a MongoDB session for atomic operations
+      const session = await mongoose.startSession();
+      session.startTransaction();
+  
+      // Find the job to be deleted
+      const job = await Job.findById(id).session(session);
+      if (!job) {
+        await session.abortTransaction();
+        session.endSession();
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: `No job with id ${id}` });
+      }
+  
+      // Step 1: Remove job references from all Applicants' appliedJobs arrays
+      const applicantIds = job.applicants.map((applicant) => applicant.applicantId);
+      await Applicant.updateMany(
+        { _id: { $in: applicantIds } },
+        { $pull: { appliedJobs: { jobId: job._id } } },
+        { session }
+      );
+  
+  
+      // Step 3: Delete the job itself
+      await Job.findByIdAndDelete(id).session(session);
+  
+      // Commit the transaction
+      await session.commitTransaction();
+      session.endSession();
+  
+      return res.status(StatusCodes.OK).json({ msg: "Job and related data deleted successfully" });
+    } catch (error) {
+      // Roll back the transaction on error
+      await session.abortTransaction();
+      session.endSession();
+  
+      console.error("Error deleting job:", error);
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        msg: "Error deleting job and related data",
+        error: error.message,
+      });
     }
-    res.status(200).json({ msg: 'job deleted' });
   };
 
