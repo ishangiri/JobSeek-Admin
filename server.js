@@ -6,6 +6,8 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 
+const app = express();
+
 const allowedOrigins = [
   'http://localhost:3001',
   'https://mern-real-zeta.vercel.app/'
@@ -60,7 +62,7 @@ if (process.env.NODE_ENV === 'development'){
 
 app.use('/applicants/jobs', nonAuthenticatedRouter);
 
-//routes for applicants coming from  
+//routes for applicants coming from applicantRouter
 app.use('/api/applicants', authenticateApplicant, applicantRouter);
 
 //routes for jobs coming from jobRouter
