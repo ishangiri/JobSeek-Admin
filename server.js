@@ -9,8 +9,8 @@ import cors from 'cors';
 const app = express();
 
 const allowedOrigins = [
-  'http://localhost:3001',
-  'https://mern-real-zeta.vercel.app/'
+  'http://localhost:3000',
+  'https://mern-real-zeta.vercel.app'
 ];
 
 app.use(cors({
@@ -26,6 +26,7 @@ app.use(cors({
   credentials: true
 }));
 
+app.options("*", cors());
 
 app.use(cookieParser());
 app.use(express.json());
