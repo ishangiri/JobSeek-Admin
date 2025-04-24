@@ -6,7 +6,7 @@ import JobsList from  "../components/ViewApplicants/JobList";
 import ApplicantsList from "../components/ViewApplicants/ApplicantsList";
 
 
-const JobsApplicantsUI = ({ jobs, applicants, selectedJobId, setSelectedJobId, handleStatusChange, openCalendar}) => {
+const JobsApplicantsUI = ({ jobs, applicants, selectedJobId, setSelectedJobId, handleStatusChange }) => {
   const { isDarkTheme } = useDashboardContext();
 
   const openResume = (resume) => {
@@ -59,7 +59,6 @@ const JobsApplicantsUI = ({ jobs, applicants, selectedJobId, setSelectedJobId, h
           isDarkTheme={isDarkTheme}
           openResume={openResume}
           onStatusChange={handleStatusChange}
-          openCalendar={openCalendar}
         />
       </div>
     </div>
