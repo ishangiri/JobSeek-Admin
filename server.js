@@ -10,7 +10,8 @@ const app = express();
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://mern-real-zeta.vercel.app'
+  'https://mern-real-zeta.vercel.app',
+  'https://jobseekers-paradise.vercel.app'
 ];
 
 app.use(cors({
