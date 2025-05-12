@@ -11,15 +11,6 @@ export const registerApplicant = async (req, res) => {
 
   const applicant = await Applicant.create(req.body);
   res.status(StatusCodes.CREATED).json({msg : "applicant created successfully"});
-
-  res.cookie('token', token, {
-    httpOnly : true,
-    expires : new Date(Date.now() + oneDay),
-     secure : process.env.NODE_ENV === 'production',
-   });
-
-   res.status(StatusCodes.OK).json({msg : "login success"})
-
 }
 //login applicant
 export const loginApplicant = async (req, res) => {
@@ -54,10 +45,14 @@ export const loginApplicant = async (req, res) => {
 ///logout applicant
 export const logOutApplicant = (req, res) => {
   res.cookie('token', 'logout', {
-   httpOnly : true,
-   expires : new Date(Date.now())
+    httpOnly: true,
+    expires: new Date(Date.now()), // Expire immediately
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none',
+    partitioned : true,
+    path: '/', // Clear cookie for all paths
   });
-  res.status(StatusCodes.OK).json({msg : "Logout success"})
+  res.status(StatusCodes.OK).json({ msg: "Logout success" });
 };
 
 
