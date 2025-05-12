@@ -57,9 +57,6 @@ useEffect(() => {
         <button type='submit' className='btn btn-block' hidden={isSubmitting}>
            {isSubmitting ? "Logging in..." : "Login"}
         </button>
-        <button type='button' className='btn btn-block'>
-         Demo User
-        </button>
         <p>
           Not signed up yet?
           <Link to="/Register" className='member-btn'>
