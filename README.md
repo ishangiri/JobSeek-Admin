@@ -70,10 +70,6 @@ JobSeek-Admin is a MERN (MongoDB, Express, React, Node.js) stack application des
 
 Contributions are welcome! Please fork the repository and submit a pull request.
 
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
 ## Acknowledgments
 
 - Inspired by the need for better job application management tools.
