@@ -28,6 +28,25 @@ async function sendApplicationEmail(email, jobTitle, companyName) {
   }
 }
 
+async function sendEmployerEmail(email, jobTitle, applicantName, companyName) {
+  try {
+    const mailResponse = await mailSender(
+      email,
+      "New Job Application Received",
+      `<div>
+        <h3>A new applicant has applied for job</h3>
+        <p>${applicantName} applied for <strong>${jobTitle}</strong> at your company ${companyName}.</p>
+        <p>Please review the application on the web app.</p>
+      </div>`
+    );
+    console.log("Confirmation email sent:", mailResponse);
+  } catch (error) {
+    console.error("Failed to send confirmation email:", error);
+  }
+
+}
+
+
 // Apply for a job
 export const applyJob = async (req, res) => {
   try {
@@ -98,6 +117,8 @@ export const applyJob = async (req, res) => {
     res.status(StatusCodes.OK).json({ msg: "Applied for the job successfully" });
     
     await sendApplicationEmail(applicant.email, job.position, job.company);
+    await sendEmployerEmail(job.createdBy.email, job.position, applicant.name, job.company);
+
 
   } catch (error) {
     console.error("Application Error:", error);

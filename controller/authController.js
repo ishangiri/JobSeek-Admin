@@ -49,6 +49,7 @@ export const logOutApplicant = (req, res) => {
     expires: new Date(Date.now()), // Expire immediately
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'none',
+    secure: true,
     partitioned : true,
     path: '/', // Clear cookie for all paths
   });
