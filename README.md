@@ -3,7 +3,7 @@
 JobSeek-Admin is a MERN (MongoDB, Express, React, Node.js) stack application designed to help users manage job applications efficiently. It provides features to track job statuses, add notes, and organize job-related information.
 
 # Complete App
- https://mern-real-zeta.vercel.app/
+https://jobseek-admin-ishan-giris-projects.vercel.app/
 
 ## Features
 

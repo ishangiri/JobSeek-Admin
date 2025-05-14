@@ -59,12 +59,16 @@ const OTP = () => {
   <Wrapper>
     <Form method = "post" className='form'>
         <Logo />
+        <div>
+           <h4 className='font-bold text-blue-400'>Enter OTP</h4>
+            <p>OTP has been sent to your email</p>    
+       </div>
         <OTPInput
           value={otpState}
           onChange={handleOtpChange}
           numInputs={6}
           renderSeparator={<span>-</span>}
-          renderInput={(props) => <input {...props} />}
+          renderInput={(props) => <input {...props}  className='text-black text-2xl'/>}
           containerStyle="otp-input-container"
           inputStyle="otp-input"
           

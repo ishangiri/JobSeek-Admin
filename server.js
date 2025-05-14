@@ -11,7 +11,8 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
   'https://mern-real-zeta.vercel.app',
-  'https://jobseekers-paradise.vercel.app'
+  'https://jobseekers-paradise.vercel.app',
+  'http://localhost:5173'
 ];
 
 app.use(cors({

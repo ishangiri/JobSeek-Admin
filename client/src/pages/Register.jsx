@@ -40,7 +40,7 @@ const Register = () => {
        navigate('/OTP', {state : actionData.registrationData})
 
     } else if (actionData?.error){
-      toast.error("Otp invalid")
+      toast.error(actionData.error.response.data.message);
     }
   }, [actionData, navigate])
 
